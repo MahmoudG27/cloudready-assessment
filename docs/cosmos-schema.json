@@ -1,0 +1,114 @@
+{
+  "id": "RPT-2025-0041",
+  "userId": "user-abc123",
+  "companyName": "MedCare Egypt",
+  "createdAt": "2025-04-18T10:30:00Z",
+  "updatedAt": "2025-04-18T10:35:00Z",
+  "status": "completed",
+
+  "meta": {
+    "aiModel": "gpt-4o",
+    "promptVersion": "v1.0",
+    "generatedAt": "2025-04-18T10:35:00Z",
+    "confidenceScore": 82
+  },
+
+  "error": {
+    "message": null,
+    "code": null,
+    "retryable": null,
+    "retryCount": 0,
+    "failedAt": null
+  },
+
+  "answers": {
+    "industry": "Healthcare",
+    "companySize": "51-200",
+    "itTeam": "1-2 personnel",
+    "infrastructure": "third-party hosting",
+    "infraAge": "2-5 years",
+    "microsoftProducts": "Microsoft 365",
+    "systems": ["ERP", "company website", "email server"],
+    "downtimeCriticality": "mission-critical",
+    "newApps": "yes",
+    "sensitiveData": "yes",
+    "securityIncidents": "no",
+    "compliance": "not sure",
+    "budget": "$500-$2000",
+    "timeline": "within 3 months",
+    "primaryGoal": "security improvement",
+    "backupSolution": "no"
+  },
+
+  "insights": {
+    "topRisk": "No backup system",
+    "topOpportunity": "Azure migration",
+    "priority": "security",
+    "level": "Developing"
+  },
+
+  "report": {
+    "data": {
+      "companyOverview": {
+        "industry": "Healthcare",
+        "companySize": "51-200",
+        "itMaturityLevel": "Medium",
+        "itMaturityReason": ""
+      },
+      "readinessScore": {
+        "total": 55,
+        "level": "Developing",
+        "breakdown": {
+          "infrastructure": 60,
+          "security": 40,
+          "teamReadiness": 70
+        }
+      },
+      "cloudMaturityPosition": "Below healthcare industry average (65)",
+      "keyFindings": [
+        {
+          "type": "risk",
+          "severity": "high",
+          "text": "No backup solution detected"
+        }
+      ],
+      "riskAssessment": [],
+      "recommendedServices": [],
+      "architectureSuggestion": [],
+      "migrationRoadmap": [],
+      "estimatedMonthlyCost": {
+        "min": 800,
+        "max": 1500,
+        "currency": "USD",
+        "notes": ""
+      },
+      "nextSteps": []
+    },
+    "ui": {
+      "hero": {
+        "verdict": "You are NOT cloud ready yet — critical backup gap detected",
+        "subtext": "Your score is 10 points below the healthcare industry average",
+        "ctaPrimary": "Start your pilot migration plan",
+        "ctaSecondary": "Fix critical security gaps"
+      },
+      "highlights": [
+        "Security is your biggest gap — 25 points below target",
+        "Fixing backup alone could raise your score to 68"
+      ],
+      "labels": {
+        "scoreLevel": "Developing",
+        "topRiskBadge": "No backup system",
+        "industryBenchmark": "Below average (65)"
+      }
+    }
+  },
+
+  "usage": {
+    "viewed": false,
+    "viewedAt": null,
+    "shared": false
+  },
+
+  "pdfUrl": "https://storage.blob.core.windows.net/reports/RPT-2025-0041.pdf",
+  "sharedLink": "https://cloudready.klayytech.com/report/RPT-2025-0041"
+}

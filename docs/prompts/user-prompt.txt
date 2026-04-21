@@ -1,0 +1,99 @@
+Generate a Cloud Readiness Report based on the following assessment data.
+
+Assessment Answers:
+{{answers}}
+
+Readiness Score: {{score}}/100
+Score Breakdown:
+- Infrastructure: {{infra_score}}%
+- Security: {{security_score}}%
+- Team Readiness: {{team_score}}%
+
+IMPORTANT CONSTRAINTS:
+- keyFindings: 3 to 5 items only (mix of risk and strength types)
+- riskAssessment: 3 to 5 items only
+- recommendedServices: 3 to 6 services only
+- migrationRoadmap: exactly 3 phases
+- nextSteps: 3 to 5 actionable steps — each must reference KlayyTech support
+
+COST ESTIMATION RULES:
+- Base estimates on company size and stated budget range
+- Small (1–50 employees): $300–$800/month
+- Medium (51–200 employees): $800–$2,000/month
+- Large (200+ employees): $2,000–$5,000+/month
+- Always return a min and max range — never a single number
+- Avoid unrealistic low or high numbers
+- If budget was stated, stay within or close to that range
+- List any assumptions made in the notes field
+
+FALLBACK RULES:
+- If any answer is missing or unclear, return "insufficient data" in that field
+- Do not guess or fabricate data
+- If overall data quality is too low to generate a reliable report, set cloudMaturityPosition to "insufficient data to assess"
+
+CRITICAL:
+Return ONLY this JSON structure. No explanations, no markdown, no extra text before or after.
+
+{
+  "companyOverview": {
+    "industry": "",
+    "companySize": "",
+    "itMaturityLevel": "Low | Medium | High",
+    "itMaturityReason": ""
+  },
+  "readinessScore": {
+    "total": 0,
+    "level": "Beginner | Developing | Advanced",
+    "breakdown": {
+      "infrastructure": 0,
+      "security": 0,
+      "teamReadiness": 0
+    }
+  },
+  "cloudMaturityPosition": "",
+  "keyFindings": [
+    {
+      "type": "risk | strength",
+      "severity": "high | medium | low",
+      "text": ""
+    }
+  ],
+  "riskAssessment": [
+    {
+      "level": "High | Medium | Low",
+      "risk": "",
+      "businessImpact": "",
+      "mitigation": ""
+    }
+  ],
+  "recommendedServices": [
+    {
+      "service": "",
+      "outcome": "",
+      "whyItFits": "",
+      "useCase": ""
+    }
+  ],
+  "architectureSuggestion": [
+    {
+      "layer": "App | Data | Security",
+      "component": "",
+      "azureService": ""
+    }
+  ],
+  "migrationRoadmap": [
+    {
+      "phase": "",
+      "title": "",
+      "activities": [],
+      "estimatedDuration": ""
+    }
+  ],
+  "estimatedMonthlyCost": {
+    "min": 0,
+    "max": 0,
+    "currency": "USD",
+    "notes": ""
+  },
+  "nextSteps": []
+}

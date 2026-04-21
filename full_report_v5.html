@@ -1,0 +1,366 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.logo{font-size:15px;font-weight:500;color:var(--color-text-primary)}.logo span{color:#185FA5}
+.page{display:flex;background:var(--color-background-tertiary);min-height:900px}
+.sidebar{width:188px;border-right:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);padding:12px 0;flex-shrink:0}
+.nav-lbl{padding:8px 16px 4px;font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em}
+.nav-item{padding:7px 16px;font-size:13px;color:var(--color-text-secondary);cursor:pointer;border-left:2px solid transparent}
+.nav-item.active{color:#185FA5;border-left-color:#185FA5;background:#E6F1FB;font-weight:500}
+.nav-divider{height:0.5px;background:var(--color-border-tertiary);margin:8px 0}
+.rn{padding:5px 16px 5px 22px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;border-left:2px solid transparent;transition:all .15s}
+.rn:hover{color:#185FA5}
+.rn.ractive{color:#185FA5;border-left-color:#185FA5;font-weight:500}
+.content{flex:1;padding:20px;overflow:auto;min-width:0}
+.rpt-section{scroll-margin-top:8px}
+
+.hero-block{background:#185FA5;border-radius:var(--border-radius-lg);padding:24px;margin-bottom:14px;color:#fff}
+.hero-top{display:flex;align-items:flex-start;gap:20px;margin-bottom:20px}
+.hero-score-ring{width:80px;height:80px;border-radius:50%;border:4px solid rgba(255,255,255,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;background:rgba(255,255,255,0.1)}
+.hero-score-num{font-size:26px;font-weight:500;color:#fff;line-height:1}
+.hero-score-of{font-size:10px;color:rgba(255,255,255,0.6)}
+.hero-right{flex:1}
+.hero-statement{font-size:16px;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.3}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5;margin-bottom:12px}
+.hero-critical{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);border:0.5px solid rgba(255,255,255,0.2);border-radius:var(--border-radius-md);padding:8px 12px;font-size:12px;color:#fff;margin-bottom:0}
+.hero-critical-dot{width:7px;height:7px;border-radius:50%;background:#F7C1C1;flex-shrink:0}
+.hero-bottom{display:flex;gap:10px;align-items:center;padding-top:18px;border-top:0.5px solid rgba(255,255,255,0.2)}
+.hero-cta-primary{flex:1.2;padding:10px;border-radius:var(--border-radius-md);font-size:13px;font-weight:500;cursor:pointer;text-align:center;background:#fff;color:#185FA5;border:none}
+.hero-cta-secondary{flex:1;padding:10px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;text-align:center;background:rgba(255,255,255,0.12);color:#fff;border:0.5px solid rgba(255,255,255,0.25)}
+.hero-hint{font-size:11px;color:rgba(255,255,255,0.55);text-align:center;margin-top:8px}
+
+.rh-meta-bar{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rh-badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px}
+.b-id{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.b-ai{background:#EEEDFE;color:#3C3489}
+.b-rev{background:#E1F5EE;color:#085041}
+.b-ind{background:#E6F1FB;color:#0C447C}
+.actions-bar{display:flex;gap:7px;flex-shrink:0}
+.btn{padding:7px 13px;font-size:12px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;color:var(--color-text-primary);cursor:pointer}
+.btn-cta{background:#185FA5;color:#fff;border-color:#185FA5;font-weight:500}
+.btn-talk{background:#0F6E56;color:#fff;border-color:#0F6E56;font-weight:500}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 20px;margin-bottom:14px}
+.sec-label{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.ai-tag{font-size:10px;background:#EEEDFE;color:#3C3489;padding:2px 7px;border-radius:20px;text-transform:none;letter-spacing:0}
+.ov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.ov-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.ov-lbl{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px}
+.ov-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.ov-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:10px}
+.industry-insight{padding:10px 14px;background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);font-size:12px;color:#0C447C;line-height:1.5}
+.hero-score-section{display:flex;align-items:flex-start;gap:20px;margin-bottom:14px}
+.score-ring{width:96px;height:96px;border-radius:50%;border:6px solid #185FA5;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.s-sub{font-size:10px;color:var(--color-text-secondary);margin-top:1px}
+.s-num{font-size:30px;font-weight:500;color:#185FA5;line-height:1}
+.s-of{font-size:10px;color:var(--color-text-secondary)}
+.score-right{flex:1}
+.score-position{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.level-pill{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:500;background:#FAEEDA;color:#633806;margin-bottom:8px}
+.score-insights{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.score-insight{font-size:12px;padding:7px 10px;border-radius:var(--border-radius-md);background:var(--color-background-secondary)}
+.si-red{color:#791F1F;background:#FCEBEB}
+.si-amber{color:#633806;background:#FAEEDA}
+.si-green{color:#27500A;background:#EAF3DE}
+.conf-row{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--color-text-secondary)}
+.conf-bar{width:70px;height:4px;background:var(--color-background-secondary);border-radius:2px;overflow:hidden}
+.conf-fill{height:100%;border-radius:2px;background:#1D9E75}
+.bk-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bk{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px}
+.bk-lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:5px}
+.bk-bar{height:5px;background:var(--color-border-tertiary);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.bk-fill{height:100%;border-radius:3px}
+.bk-val{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.findings{display:flex;flex-direction:column;gap:7px}
+.finding{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:var(--border-radius-md);font-size:12px;line-height:1.5}
+.f-r{background:#FCEBEB;color:#791F1F;border:0.5px solid #F7C1C1}
+.f-g{background:#EAF3DE;color:#27500A;border:0.5px solid #C0DD97}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dr{background:#E24B4A}.dg{background:#639922}
+.risks{display:flex;flex-direction:column;gap:8px}
+.risk{padding:11px 14px;border-radius:var(--border-radius-md);border-left:3px solid transparent}
+.r-hi{background:#FCEBEB;border-left-color:#E24B4A}
+.r-md{background:#FAEEDA;border-left-color:#EF9F27}
+.r-lo{background:#EAF3DE;border-left-color:#639922}
+.r-title{font-size:12px;font-weight:500;margin-bottom:2px}
+.r-hi .r-title{color:#791F1F}.r-md .r-title{color:#633806}.r-lo .r-title{color:#27500A}
+.r-impact{font-size:11px;font-weight:500;margin-bottom:2px}
+.r-hi .r-impact{color:#A32D2D}.r-md .r-impact{color:#854F0B}.r-lo .r-impact{color:#3B6D11}
+.r-mit{font-size:11px;color:var(--color-text-secondary)}
+.roi-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary)}
+.roi-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.roi-lbl{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px}
+.roi-val{font-size:14px;font-weight:500}
+.roi-red{color:#A32D2D}.roi-green{color:#27500A}.roi-blue{color:#0C447C}
+.svc-grid{display:flex;flex-direction:column;gap:8px}
+.svc{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid transparent;transition:border-color .15s}
+.svc:hover{border-color:var(--color-border-secondary)}
+.svc-icon{width:30px;height:30px;border-radius:var(--border-radius-md);background:#E6F1FB;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.svc-body{flex:1}
+.svc-name{font-size:13px;font-weight:500;color:#0C447C;margin-bottom:2px}
+.svc-outcome{font-size:12px;color:var(--color-text-primary);font-weight:500;margin-bottom:2px}
+.svc-why{font-size:11px;color:var(--color-text-secondary)}
+.svc-arrow{font-size:14px;color:var(--color-text-secondary);align-self:center}
+.arch-layers{display:flex;flex-direction:column;gap:10px}
+.arch-layer{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden}
+.arch-layer-title{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 12px;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-transform:uppercase;letter-spacing:.04em}
+.arch-rows{padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.arch-row{display:flex;align-items:center}
+.arch-box{padding:7px 12px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);min-width:130px;text-align:center}
+.arch-svc-box{padding:7px 12px;border-radius:var(--border-radius-md);font-size:12px;font-weight:500;border:0.5px solid #B5D4F4;background:#E6F1FB;color:#0C447C;min-width:150px;text-align:center}
+.arch-arrow{padding:0 10px;font-size:13px;color:var(--color-text-secondary)}
+.roadmap{display:flex;flex-direction:column;gap:10px}
+.phase{padding:12px 14px;border-radius:var(--border-radius-md);border-left:3px solid #185FA5;background:var(--color-background-secondary)}
+.ph-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.ph-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.ph-dur{font-size:10px;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);padding:2px 8px;border-radius:20px}
+.ph-act{font-size:11px;color:var(--color-text-secondary);padding-left:12px;margin-bottom:3px;position:relative}
+.ph-act::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--color-border-secondary)}
+.roadmap-total{margin-top:8px;padding:8px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-secondary);display:flex;align-items:center;justify-content:space-between}
+.roadmap-total span{font-weight:500;color:var(--color-text-primary)}
+.cost-main-block{margin-bottom:8px}
+.cost-big{font-size:30px;font-weight:500;color:var(--color-text-primary);line-height:1;display:inline}
+.cost-mo{font-size:14px;color:var(--color-text-secondary);margin-left:4px}
+.cost-note{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:10px}
+.cost-impact{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
+.ci-item{padding:10px 12px;border-radius:var(--border-radius-md)}
+.ci-red{background:#FCEBEB}
+.ci-green{background:#EAF3DE}
+.ci-lbl{font-size:10px;margin-bottom:3px}
+.ci-red .ci-lbl{color:#A32D2D}
+.ci-green .ci-lbl{color:#3B6D11}
+.ci-val{font-size:13px;font-weight:500}
+.ci-red .ci-val{color:#791F1F}
+.ci-green .ci-val{color:#27500A}
+.steps{display:flex;flex-direction:column;gap:7px}
+.step{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:12px;color:var(--color-text-primary);cursor:pointer}
+.step.step-1{background:#E6F1FB;border:0.5px solid #B5D4F4}
+.step.step-1 .sn{background:#185FA5;color:#fff}
+.sn{width:22px;height:22px;border-radius:50%;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.footer-actions{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 20px;display:flex;align-items:center;gap:10px}
+.fa-text{font-size:11px;color:var(--color-text-secondary);margin-right:auto;line-height:1.5}
+@media print{.sidebar,.topbar,.rh-meta-bar .actions-bar,.footer-actions{display:none!important}.page{display:block}.content{padding:0}.card{break-inside:avoid}}
+</style>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">Klayytech <span>CloudReady</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:12px;color:var(--color-text-secondary)">Ahmed Hassan</span>
+      <div style="width:28px;height:28px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#0C447C">AH</div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="sidebar">
+      <div class="nav-lbl">App</div>
+      <div class="nav-item">Dashboard</div>
+      <div class="nav-item active">Assessments</div>
+      <div class="nav-item">Reports</div>
+      <div class="nav-item">Settings</div>
+      <div class="nav-divider"></div>
+      <div class="nav-lbl">This report</div>
+      <div class="rn ractive" data-sec="s-hero">Decision</div>
+      <div class="rn" data-sec="s-overview">Overview</div>
+      <div class="rn" data-sec="s-score">Score</div>
+      <div class="rn" data-sec="s-findings">Findings</div>
+      <div class="rn" data-sec="s-risks">Risks & impact</div>
+      <div class="rn" data-sec="s-services">Services</div>
+      <div class="rn" data-sec="s-arch">Architecture</div>
+      <div class="rn" data-sec="s-roadmap">Roadmap</div>
+      <div class="rn" data-sec="s-cost">Cost & ROI</div>
+      <div class="rn" data-sec="s-next">Next steps</div>
+    </div>
+
+    <div class="content" id="content">
+
+      <div class="rpt-section" id="s-hero">
+        <div class="hero-block">
+          <div class="hero-top">
+            <div class="hero-score-ring">
+              <span class="hero-score-num">55</span>
+              <span class="hero-score-of">/ 100</span>
+            </div>
+            <div class="hero-right">
+              <div class="hero-statement">MedCare Egypt is not cloud ready — critical gaps detected</div>
+              <div class="hero-sub">Your score of 55 is 10 points below the healthcare industry average. Security is your biggest gap and a backup solution is urgently needed before any migration can begin.</div>
+              <div class="hero-critical"><div class="hero-critical-dot"></div>Critical: no backup or disaster recovery — potential data loss could halt operations for 48+ hours</div>
+            </div>
+          </div>
+          <div class="hero-bottom">
+            <button class="hero-cta-primary" onclick="sendPrompt('إزاي نبدأ pilot migration plan مع KlayyTech؟')">Start your pilot migration plan</button>
+            <button class="hero-cta-secondary" onclick="sendPrompt('إزاي KlayyTech تعالج الـ security gaps في healthcare؟')">Fix critical security gaps</button>
+            <button class="hero-cta-secondary" onclick="sendPrompt('إزاي بيتم الـ consultation مع cloud expert؟')">Talk to a cloud expert</button>
+          </div>
+          <div class="hero-hint">A KlayyTech cloud architect will contact you within 24 hours</div>
+        </div>
+      </div>
+
+      <div class="rh-meta-bar">
+        <div>
+          <div style="font-size:14px;font-weight:500;color:var(--color-text-primary)">MedCare Egypt — Cloud readiness report</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Healthcare · 51–200 employees · April 18, 2025</div>
+          <div class="rh-badges" style="margin-top:5px">
+            <span class="badge b-id">RPT-2025-0041</span>
+            <span class="badge b-ai">Azure OpenAI powered</span>
+            <span class="badge b-rev">Reviewed by KlayyTech Cloud Team</span>
+            <span class="badge b-ind">Healthcare industry</span>
+          </div>
+        </div>
+        <div class="actions-bar">
+          <button class="btn">Share</button>
+          <button class="btn">Email</button>
+          <button class="btn btn-cta">Download PDF</button>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-overview">
+        <div class="sec-label">01 · Company overview <span class="ai-tag">AI generated</span></div>
+        <div class="ov-grid">
+          <div class="ov-item"><div class="ov-lbl">Industry</div><div class="ov-val">Healthcare</div></div>
+          <div class="ov-item"><div class="ov-lbl">Company size</div><div class="ov-val">51–200 employees</div></div>
+          <div class="ov-item"><div class="ov-lbl">IT maturity</div><div class="ov-val" style="color:#BA7517">Medium</div></div>
+        </div>
+        <div class="ov-sub">Company has partial IT infrastructure with 1–2 IT personnel managing third-party hosted systems. Microsoft 365 already in use — strong Azure ecosystem alignment. Handles sensitive patient data requiring compliance controls.</div>
+        <div class="industry-insight" style="margin-top:10px"><strong>Healthcare industry insight:</strong> Egyptian healthcare organizations handling patient data are subject to data residency and privacy regulations. Azure's Middle East region (UAE North) provides compliant hosting. HIPAA-equivalent controls are strongly recommended for your workload profile.</div>
+      </div>
+
+      <div class="card rpt-section" id="s-score">
+        <div class="sec-label">02 · Cloud readiness score <span class="ai-tag">Confidence 82% · 15 inputs</span></div>
+        <div class="hero-score-section">
+          <div class="score-ring">
+            <span class="s-sub">Your position</span>
+            <span class="s-num">55</span>
+            <span class="s-of">/ 100</span>
+          </div>
+          <div class="score-right">
+            <div class="score-position">Current cloud readiness level</div>
+            <div class="level-pill">Developing</div>
+            <div class="score-insights">
+              <div class="score-insight si-red">Below healthcare industry average of 65 — 10 points gap</div>
+              <div class="score-insight si-amber">Security is your biggest gap — 25 points below target</div>
+              <div class="score-insight si-green">Fixing backup alone could raise your score to 68</div>
+            </div>
+            <div class="conf-row"><span>AI confidence</span><div class="conf-bar"><div class="conf-fill" style="width:82%"></div></div><span>82%</span></div>
+          </div>
+        </div>
+        <div class="bk-row">
+          <div class="bk"><div class="bk-lbl">Infrastructure</div><div class="bk-bar"><div class="bk-fill" style="width:60%;background:#185FA5"></div></div><div class="bk-val">60%</div></div>
+          <div class="bk"><div class="bk-lbl">Security</div><div class="bk-bar"><div class="bk-fill" style="width:40%;background:#E24B4A"></div></div><div class="bk-val">40%</div></div>
+          <div class="bk"><div class="bk-lbl">Team readiness</div><div class="bk-bar"><div class="bk-fill" style="width:70%;background:#639922"></div></div><div class="bk-val">70%</div></div>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-findings">
+        <div class="sec-label">03 · Key findings — facts detected <span class="ai-tag">AI generated</span></div>
+        <div class="findings">
+          <div class="finding f-r"><div class="dot dr"></div>No backup or disaster recovery solution detected in current infrastructure</div>
+          <div class="finding f-r"><div class="dot dr"></div>IT team limited to 1–2 personnel — insufficient for unassisted migration</div>
+          <div class="finding f-r"><div class="dot dr"></div>Patient data handled without documented compliance controls</div>
+          <div class="finding f-g"><div class="dot dg"></div>Microsoft 365 already in use — Azure adoption requires minimal retraining</div>
+          <div class="finding f-g"><div class="dot dg"></div>Migration timeline defined within 3 months — organizational readiness confirmed</div>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-risks">
+        <div class="sec-label">04 · Risk assessment — business impact <span class="ai-tag">AI generated</span></div>
+        <div class="risks">
+          <div class="risk r-hi"><div class="r-title">No disaster recovery plan</div><div class="r-impact">Business impact: data loss could halt operations for 48+ hours, affecting patient care</div><div class="r-mit">Mitigation: Deploy Azure Backup + Site Recovery before migration begins</div></div>
+          <div class="risk r-hi"><div class="r-title">Patient data compliance gap</div><div class="r-impact">Business impact: regulatory exposure and reputational damage in a sensitive industry</div><div class="r-mit">Mitigation: Enable Microsoft Defender for Cloud + ISO 27001 policies from day one</div></div>
+          <div class="risk r-md"><div class="r-title">Limited internal IT capacity</div><div class="r-impact">Business impact: migration delays of 4–8 weeks without external support</div><div class="r-mit">Mitigation: Engage KlayyTech managed services for migration execution</div></div>
+          <div class="risk r-lo"><div class="r-title">Legacy hosting environment</div><div class="r-impact">Business impact: low — environment stable but approaching end of scalability</div><div class="r-mit">Mitigation: Pilot migration with non-critical workload first</div></div>
+        </div>
+        <div class="roi-bar">
+          <div class="roi-item"><div class="roi-lbl">Estimated downtime risk</div><div class="roi-val roi-red">$5K – $20K / incident</div></div>
+          <div class="roi-item"><div class="roi-lbl">Infra overhead reduction</div><div class="roi-val roi-green">~30% after migration</div></div>
+          <div class="roi-item"><div class="roi-lbl">Compliance gap cost</div><div class="roi-val roi-red">High — unquantified</div></div>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-services">
+        <div class="sec-label">05 · Recommended Azure services <span class="ai-tag">AI generated</span></div>
+        <div class="svc-grid">
+          <div class="svc" onclick="sendPrompt('وضحلي Azure App Service أكتر')"><div class="svc-icon">🌐</div><div class="svc-body"><div class="svc-name">Azure App Service</div><div class="svc-outcome">Ensures 99.95% uptime with zero infrastructure management overhead</div><div class="svc-why">Why it fits: managed hosting with auto-scaling for your web and custom apps</div></div><div class="svc-arrow">›</div></div>
+          <div class="svc" onclick="sendPrompt('وضحلي Azure SQL Database')"><div class="svc-icon">🗄️</div><div class="svc-body"><div class="svc-name">Azure SQL Database</div><div class="svc-outcome">Eliminates manual database maintenance with built-in automated backups</div><div class="svc-why">Why it fits: direct migration path from your existing relational data</div></div><div class="svc-arrow">›</div></div>
+          <div class="svc" onclick="sendPrompt('وضحلي Microsoft Defender for Cloud')"><div class="svc-icon">🛡️</div><div class="svc-body"><div class="svc-name">Microsoft Defender for Cloud</div><div class="svc-outcome">Closes your compliance gap and reduces breach risk in a patient-data environment</div><div class="svc-why">Why it fits: healthcare data requires continuous threat detection and compliance reporting</div></div><div class="svc-arrow">›</div></div>
+          <div class="svc" onclick="sendPrompt('وضحلي Azure Backup')"><div class="svc-icon">💾</div><div class="svc-body"><div class="svc-name">Azure Backup</div><div class="svc-outcome">Prevents data loss and ensures recovery within minutes during any outage</div><div class="svc-why">Why it fits: you currently have no backup solution — your most critical gap</div></div><div class="svc-arrow">›</div></div>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-arch">
+        <div class="sec-label">06 · Architecture suggestion</div>
+        <div class="arch-layers">
+          <div class="arch-layer"><div class="arch-layer-title">App layer</div><div class="arch-rows"><div class="arch-row"><div class="arch-box">Web application</div><div class="arch-arrow">→</div><div class="arch-svc-box">Azure App Service</div></div><div class="arch-row"><div class="arch-box">Email & productivity</div><div class="arch-arrow">→</div><div class="arch-svc-box">Microsoft 365</div></div></div></div>
+          <div class="arch-layer"><div class="arch-layer-title">Data layer</div><div class="arch-rows"><div class="arch-row"><div class="arch-box">Patient database</div><div class="arch-arrow">→</div><div class="arch-svc-box">Azure SQL Database</div></div><div class="arch-row"><div class="arch-box">File storage</div><div class="arch-arrow">→</div><div class="arch-svc-box">Azure Blob Storage</div></div></div></div>
+          <div class="arch-layer"><div class="arch-layer-title">Security layer</div><div class="arch-rows"><div class="arch-row"><div class="arch-box">Security & compliance</div><div class="arch-arrow">→</div><div class="arch-svc-box">Microsoft Defender for Cloud</div></div><div class="arch-row"><div class="arch-box">Backup & recovery</div><div class="arch-arrow">→</div><div class="arch-svc-box">Azure Backup + Site Recovery</div></div></div></div>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-roadmap">
+        <div class="sec-label">07 · Migration roadmap <span class="ai-tag">AI generated</span></div>
+        <div class="roadmap">
+          <div class="phase"><div class="ph-hdr"><span class="ph-title">Phase 1 — Assessment & planning</span><span class="ph-dur">Weeks 1–3</span></div><div class="ph-act">Define migration scope and priorities with KlayyTech team</div><div class="ph-act">Set up Azure subscription, governance, and compliance baseline</div><div class="ph-act">Map patient data flows and define ISO 27001 controls</div></div>
+          <div class="phase"><div class="ph-hdr"><span class="ph-title">Phase 2 — Pilot migration</span><span class="ph-dur">Weeks 4–8</span></div><div class="ph-act">Migrate non-critical workload to Azure App Service with KlayyTech</div><div class="ph-act">Deploy Azure Backup and run full recovery test</div><div class="ph-act">Enable Microsoft Defender for Cloud and set compliance policies</div></div>
+          <div class="phase"><div class="ph-hdr"><span class="ph-title">Phase 3 — Full deployment</span><span class="ph-dur">Weeks 9–16</span></div><div class="ph-act">Migrate patient database to Azure SQL with guided KlayyTech support</div><div class="ph-act">Decommission legacy hosting environment</div><div class="ph-act">Staff training, handover, and go-live sign-off</div></div>
+        </div>
+        <div class="roadmap-total"><span>Estimated total migration timeline</span><span>3–4 months</span></div>
+      </div>
+
+      <div class="card rpt-section" id="s-cost">
+        <div class="sec-label">08 · Estimated cost & ROI</div>
+        <div class="cost-main-block"><span class="cost-big">$800 – $1,500</span><span class="cost-mo">/ month</span></div>
+        <div class="cost-note">Based on company size and selected services. Actual cost depends on usage, storage volume, and final architecture. KlayyTech can provide a detailed quote after a technical discovery session.</div>
+        <div class="cost-impact">
+          <div class="ci-item ci-red"><div class="ci-lbl">Cost of NOT migrating (downtime risk)</div><div class="ci-val">$5K – $20K per incident</div></div>
+          <div class="ci-item ci-green"><div class="ci-lbl">Expected infra overhead reduction</div><div class="ci-val">~30% after full migration</div></div>
+        </div>
+      </div>
+
+      <div class="card rpt-section" id="s-next">
+        <div class="sec-label">09 · Next steps</div>
+        <div class="steps">
+          <div class="step step-1" onclick="sendPrompt('إزاي نعمل consultation مع KlayyTech؟')"><div class="sn">1</div>Schedule a guided consultation with a KlayyTech cloud architect</div>
+          <div class="step"><div class="sn">2</div>Run a guided infrastructure discovery session with KlayyTech</div>
+          <div class="step"><div class="sn">3</div>Define healthcare compliance requirements with KlayyTech</div>
+          <div class="step"><div class="sn">4</div>Start a pilot migration with KlayyTech on a non-critical workload</div>
+          <div class="step"><div class="sn">5</div>Review and finalize your Azure cost estimate with KlayyTech</div>
+        </div>
+      </div>
+
+      <div class="footer-actions">
+        <div class="fa-text">RPT-2025-0041 · KlayyTech CloudReady · Azure OpenAI powered<br>Reviewed by KlayyTech Cloud Team · Confidence: 82%</div>
+        <button class="btn">Share link</button>
+        <button class="btn">Send to client</button>
+        <button class="btn btn-talk">Talk to expert</button>
+        <button class="btn btn-cta">Download PDF</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const sections=['s-hero','s-overview','s-score','s-findings','s-risks','s-services','s-arch','s-roadmap','s-cost','s-next'];
+const navItems=document.querySelectorAll('.rn');
+const content=document.getElementById('content');
+function updateNav(){
+  let current=sections[0];
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const rect=el.getBoundingClientRect();
+    const cRect=content.getBoundingClientRect();
+    if(rect.top-cRect.top<60)current=id;
+  });
+  navItems.forEach(n=>n.classList.toggle('ractive',n.dataset.sec===current));
+}
+content.addEventListener('scroll',updateNav);
+navItems.forEach(n=>{
+  n.addEventListener('click',()=>{
+    const el=document.getElementById(n.dataset.sec);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
