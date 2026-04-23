@@ -15,26 +15,26 @@ Phase 3 next — Infrastructure (Terraform + Azure setup).
 - `docs/prompts/system-prompt.txt` — Azure OpenAI system prompt
 - `docs/prompts/user-prompt.txt` — Azure OpenAI user prompt template
 
+1. اختار **Send an email (V2)**
+2. سجل دخول بـ account بتاعك
+3. في الـ **To** field حط:
+```
+@{triggerBody()?['to']}
+```
+4. **Subject**:
+```
+@{triggerBody()?['subject']}
+```
+5. **Body**:
+```
+Dear Client,
 
+Your Cloud Readiness Report for @{triggerBody()?['companyName']} is ready.
 
+Report ID: @{triggerBody()?['reportId']}
 
-az ad sp create-for-rbac --name "sp-cloudready-github" --role contributor --scopes /subscriptions/<subscription-id> --sdk-auth
+Download your report: @{triggerBody()?['reportUrl']}
 
-AZURE_CREDENTIALS: Service Principal JSON
-TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
-TF_VAR_object_id: ${{ secrets.AZURE_OBJECT_ID }}
-TF_VAR_project: ${{ secrets.TF_PROJECT }}
-TF_VAR_environment: ${{ secrets.TF_ENVIRONMENT }}
-TF_VAR_location: ${{ secrets.TF_LOCATION }}
-TF_VAR_resource_group_name: ${{ secrets.TF_RESOURCE_GROUP_NAME }}
-
-terraform output -raw function_app_name
-terraform output -raw function_app_hostname
-terraform output -raw static_web_app_api_key
-
-FUNCTION_APP_NAME: func-cloudready-dev
-FUNCTION_APP_URL: function app hostname
-STATIC_WEB_APP_API_TOKEN: from Terraform output
-
-
+Best regards,
+KlayyTech Cloud Team
+```

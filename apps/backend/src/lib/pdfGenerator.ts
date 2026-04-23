@@ -1,0 +1,201 @@
+import PDFDocument from "pdfkit";
+import { AssessmentDocument } from "../types/assessment";
+
+export async function generatePDF(document: AssessmentDocument): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ margin: 50 });
+    const chunks: Buffer[] = [];
+
+    doc.on("data", (chunk) => chunks.push(chunk));
+    doc.on("end", () => resolve(Buffer.concat(chunks)));
+    doc.on("error", reject);
+
+    const report = document.report.data!;
+
+    // ===== Header =====
+    doc
+      .fontSize(20)
+      .font("Helvetica-Bold")
+      .text("Cloud Readiness Report", { align: "center" });
+
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(`${document.companyName}`, { align: "center" });
+
+    doc
+      .fontSize(10)
+      .fillColor("#888888")
+      .text(`Generated: ${new Date(document.meta.generatedAt!).toLocaleDateString()}  |  Report ID: ${document.id}`, { align: "center" });
+
+    doc.moveDown(2);
+
+    // ===== Score =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .fillColor("#000000")
+      .text("Cloud Readiness Score");
+
+    doc.moveDown(0.5);
+
+    doc
+      .fontSize(11)
+      .font("Helvetica")
+      .text(`Total Score: ${report.readinessScore.total}/100`)
+      .text(`Level: ${report.readinessScore.level}`)
+      .text(`Infrastructure: ${report.readinessScore.breakdown.infrastructure}%`)
+      .text(`Security: ${report.readinessScore.breakdown.security}%`)
+      .text(`Team Readiness: ${report.readinessScore.breakdown.teamReadiness}%`);
+
+    doc.moveDown(1.5);
+
+    // ===== Company Overview =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Company Overview");
+
+    doc.moveDown(0.5);
+
+    doc
+      .fontSize(11)
+      .font("Helvetica")
+      .text(`Industry: ${report.companyOverview.industry}`)
+      .text(`Company Size: ${report.companyOverview.companySize}`)
+      .text(`IT Maturity: ${report.companyOverview.itMaturityLevel}`)
+      .text(`Reason: ${report.companyOverview.itMaturityReason}`);
+
+    doc.moveDown(1.5);
+
+    // ===== Key Findings =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Key Findings");
+
+    doc.moveDown(0.5);
+
+    report.keyFindings.forEach((finding) => {
+      const prefix = finding.type === "risk" ? "⚠ " : "✓ ";
+      doc
+        .fontSize(11)
+        .font("Helvetica")
+        .text(`${prefix} ${finding.text}`);
+      doc.moveDown(0.3);
+    });
+
+    doc.moveDown(1);
+
+    // ===== Risk Assessment =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Risk Assessment");
+
+    doc.moveDown(0.5);
+
+    report.riskAssessment.forEach((risk) => {
+      doc
+        .fontSize(11)
+        .font("Helvetica-Bold")
+        .text(`[${risk.level}] ${risk.risk}`);
+      doc
+        .fontSize(10)
+        .font("Helvetica")
+        .text(`Impact: ${risk.businessImpact}`)
+        .text(`Mitigation: ${risk.mitigation}`);
+      doc.moveDown(0.5);
+    });
+
+    doc.moveDown(1);
+
+    // ===== Recommended Services =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Recommended Azure Services");
+
+    doc.moveDown(0.5);
+
+    report.recommendedServices.forEach((service) => {
+      doc
+        .fontSize(11)
+        .font("Helvetica-Bold")
+        .text(service.service);
+      doc
+        .fontSize(10)
+        .font("Helvetica")
+        .text(`Outcome: ${service.outcome}`)
+        .text(`Why it fits: ${service.whyItFits}`);
+      doc.moveDown(0.5);
+    });
+
+    doc.moveDown(1);
+
+    // ===== Migration Roadmap =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Migration Roadmap");
+
+    doc.moveDown(0.5);
+
+    report.migrationRoadmap.forEach((phase) => {
+      doc
+        .fontSize(11)
+        .font("Helvetica-Bold")
+        .text(`Phase ${phase.phase}: ${phase.title} (${phase.estimatedDuration})`);
+      phase.activities.forEach((activity) => {
+        doc
+          .fontSize(10)
+          .font("Helvetica")
+          .text(`  • ${activity}`);
+      });
+      doc.moveDown(0.5);
+    });
+
+    doc.moveDown(1);
+
+    // ===== Cost =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Estimated Monthly Cost");
+
+    doc.moveDown(0.5);
+
+    doc
+      .fontSize(11)
+      .font("Helvetica")
+      .text(`$${report.estimatedMonthlyCost.min} – $${report.estimatedMonthlyCost.max} / month`)
+      .text(`Notes: ${report.estimatedMonthlyCost.notes}`);
+
+    doc.moveDown(1.5);
+
+    // ===== Next Steps =====
+    doc
+      .fontSize(14)
+      .font("Helvetica-Bold")
+      .text("Next Steps");
+
+    doc.moveDown(0.5);
+
+    report.nextSteps.forEach((step, index) => {
+      doc
+        .fontSize(11)
+        .font("Helvetica")
+        .text(`${index + 1}. ${step}`);
+      doc.moveDown(0.3);
+    });
+
+    // ===== Footer =====
+    doc.moveDown(2);
+    doc
+      .fontSize(9)
+      .fillColor("#888888")
+      .text("Generated by KlayyTech CloudReady — Powered by Azure OpenAI", { align: "center" });
+
+    doc.end();
+  });
+}

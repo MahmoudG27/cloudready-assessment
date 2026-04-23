@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import OpenAI from "openai/index.mjs";
 import { ReportData } from "../types/assessment";
 
 if (!process.env.OPENAI_API_KEY) throw new Error("Missing OPENAI_API_KEY");

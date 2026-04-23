@@ -6,19 +6,25 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "start": "npm run build && func start",
-    "prestart": "npm run build"
+    "clean": "rimraf dist",
+    "prestart": "npm run clean && npm run build",
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/functions": "^4.5.0",
     "@azure/cosmos": "^4.1.0",
-    "openai": "^4.0.0",
+    "@azure/functions": "^4.5.0",
     "@azure/storage-blob": "^12.17.0",
+    "openai": "^4.0.0",
+    "pdfkit": "^0.18.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
+    "@types/pdfkit": "^0.17.6",
     "@types/uuid": "^9.0.0",
+    "azure-functions-core-tools": "^4.x",
+    "rimraf": "^5.0.0",
     "typescript": "^5.3.0"
   }
 }

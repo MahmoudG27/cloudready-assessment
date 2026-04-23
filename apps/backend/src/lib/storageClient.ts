@@ -1,4 +1,4 @@
-import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, BlobSASPermissions } from "@azure/storage-blob";
 
 if (!process.env.STORAGE_CONNECTION_STRING) {
   throw new Error("Missing STORAGE_CONNECTION_STRING");
@@ -23,8 +23,11 @@ export async function generateSasUrl(reportId: string): Promise<string> {
   const blockBlobClient = containerClient.getBlockBlobClient(`${reportId}.pdf`);
   const expiresOn = new Date();
   expiresOn.setHours(expiresOn.getHours() + 24);
-  return await blockBlobClient.generateSasUrl({
-    permissions: { read: true } as any,
+
+  const sasUrl = await blockBlobClient.generateSasUrl({
+    permissions: BlobSASPermissions.parse("r"),
     expiresOn,
   });
+
+  return sasUrl;
 }
