@@ -32,7 +32,7 @@ jobs:
         working-directory: apps/frontend
         run: npm run build
         env:
-          REACT_APP_API_URL: ${{ secrets.FUNCTION_APP_URL }}
+          VITE_API_URL: ${{ secrets.FUNCTION_APP_URL }}
 
       - name: Deploy to Static Web App
         uses: Azure/static-web-apps-deploy@v1
