@@ -163,14 +163,14 @@ export default function ReportPage() {
                                                             display: "flex", alignItems: "center", gap: "8px",
                                                             background: "rgba(255,255,255,0.12)", border: "0.5px solid rgba(255,255,255,0.2)",
                                                             borderRadius: "8px", padding: "8px 12px", fontSize: "12px"
-                                                        }, children: [_jsx("div", { style: { width: "7px", height: "7px", borderRadius: "50%", background: "#F7C1C1", flexShrink: 0 } }), ui.highlights[0]] }))] })] }), _jsxs("div", { style: { display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }, children: [_jsx("button", { style: {
+                                                        }, children: [_jsx("div", { style: { width: "7px", height: "7px", borderRadius: "50%", background: "#F7C1C1", flexShrink: 0 } }), ui.highlights[0]] }))] })] }), _jsxs("div", { style: { display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }, children: [_jsx("button", { onClick: () => window.open("mailto:sales@klayytech.com?subject=Migration Plan Request", "_blank"), style: {
                                                     flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
                                                     background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
-                                                }, children: ui?.hero.ctaPrimary ?? "Start migration plan" }), _jsx("button", { style: {
+                                                }, children: ui?.hero.ctaPrimary ?? "Start migration plan" }), _jsx("button", { onClick: () => window.open("mailto:sales@klayytech.com?subject=Security Gap Assessment", "_blank"), style: {
                                                     flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
                                                     background: "rgba(255,255,255,0.12)", color: "#fff",
                                                     border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-                                                }, children: ui?.hero.ctaSecondary ?? "Talk to an expert" }), _jsx("button", { style: {
+                                                }, children: ui?.hero.ctaSecondary ?? "Fix critical security gaps" }), _jsx("button", { onClick: () => setShowEmailInput(true), style: {
                                                     flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
                                                     background: "rgba(255,255,255,0.12)", color: "#fff",
                                                     border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
@@ -241,7 +241,7 @@ export default function ReportPage() {
                                                             color: i === 0 ? "#fff" : "#6b7280",
                                                             display: "flex", alignItems: "center", justifyContent: "center",
                                                             fontSize: "10px", fontWeight: 500
-                                                        }, children: i + 1 }), step] }, i))) })] }) }), _jsxs("div", { style: {
+                                                        }, children: i + 1 }), typeof step === "string" ? step : step.step ?? JSON.stringify(step)] }, i))) })] }) }), _jsxs("div", { style: {
                                     background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px",
                                     padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px", marginBottom: "0"
                                 }, children: [_jsxs("div", { style: { fontSize: "11px", color: "#6b7280", marginRight: "auto", lineHeight: 1.5 }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Azure OpenAI powered", _jsx("br", {}), "Reviewed by KlayyTech Cloud Team \u00B7 Confidence: ", report.meta?.confidenceScore ?? 82, "%"] }), _jsx(Button, { onClick: () => setShowEmailInput(true), children: "Send to client" }), _jsx(Button, { variant: "primary", onClick: handleDownloadPDF, disabled: pdfLoading, children: pdfLoading ? "Generating..." : "Download PDF" })] })] })] })] }));

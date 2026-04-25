@@ -39,15 +39,17 @@ async function generateReport(
     });
 
     // 3. Call OpenAI
+    context.log("Score being sent to AI:", JSON.stringify((document as any).score));
     const reportData = await generateReportFromAI(
       document.answers,
-      document.report.data?.readinessScore ?? {
+      (document as any).score ?? {
         total: 0,
         infrastructure: 0,
         security: 0,
         teamReadiness: 0
       }
     ) as ReportData;
+    context.log("Score from AI:", JSON.stringify(reportData.readinessScore));
     context.log("AI Response structure:", JSON.stringify(Object.keys(reportData)));
 
     // 4. Build UI layer

@@ -72,6 +72,15 @@ module "functions" {
   key_vault_name                 = module.key_vault.name
   static_web_app_hostname        = module.static_web_app.hostname
   tenant_id                      = var.tenant_id
+
+  depends_on = [module.openai]
+}
+
+resource "azurerm_key_vault_secret" "system_prompt" {
+  name         = "system-prompt"
+  value        = var.system_prompt
+  key_vault_id = module.key_vault.id
+  depends_on   = [module.key_vault]
 }
 
 resource "azurerm_key_vault_access_policy" "functions" {
@@ -82,6 +91,8 @@ resource "azurerm_key_vault_access_policy" "functions" {
   secret_permissions = [
     "Get", "List"
   ]
+
+  depends_on = [module.functions]
 }
 
 module "static_web_app" {

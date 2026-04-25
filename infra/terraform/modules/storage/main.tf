@@ -1,5 +1,11 @@
+resource "random_string" "storage_suffix" {
+  length  = 4
+  upper   = false
+  special = false
+}
+
 resource "azurerm_storage_account" "main" {
-  name                     = "st${var.project}${var.environment}"
+  name = "st${var.project}${var.environment}${random_string.storage_suffix.result}"
   location                 = var.location
   resource_group_name      = var.resource_group_name
   account_tier             = "Standard"

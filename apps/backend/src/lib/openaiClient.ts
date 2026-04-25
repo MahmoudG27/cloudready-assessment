@@ -39,7 +39,14 @@ export async function generateReportFromAI(
   answers: object,
   score: object
 ): Promise<object> {
-  const systemPrompt = process.env.SYSTEM_PROMPT!;
+  const systemPrompt = process.env.SYSTEM_PROMPT! + `
+
+CRITICAL SCORING RULE:
+The readinessScore values will be provided in the user message.
+You MUST use these EXACT values in your response:
+- Do NOT calculate your own scores
+- Do NOT modify the provided scores
+- Copy them exactly as provided`;
   const userPrompt = buildUserPrompt(answers, score);
 
   const response = await client.chat.completions.create({
@@ -56,17 +63,41 @@ export async function generateReportFromAI(
   if (!content) throw new Error("Empty response from OpenAI");
 
   try {
-    const cleaned = content
+    let cleaned = content
       .replace(/^```json\s*/i, "")
       .replace(/^```\s*/i, "")
       .replace(/```\s*$/i, "")
       .trim();
+
+    // Fix the extra closing brace after cloudMaturityPosition
+    cleaned = cleaned.replace(
+      /("cloudMaturityPosition"\s*:\s*"[^"]*")\s*\n\s*\}\s*,/g,
+      '$1,'
+    );
 
     const parsed = JSON.parse(cleaned);
 
     if (!validateReportSchema(parsed)) {
       throw new Error("AI response does not match required schema");
     }
+
+    // Force override the score with our calculated values
+    const s = score as {
+      total: number;
+      infrastructure: number;
+      security: number;
+      teamReadiness: number;
+    };
+
+    parsed.readinessScore = {
+      total: s.total,
+      level: s.total >= 71 ? "Advanced" : s.total >= 41 ? "Developing" : "Beginner",
+      breakdown: {
+        infrastructure: s.infrastructure,
+        security: s.security,
+        teamReadiness: s.teamReadiness
+      }
+    };
 
     return parsed;
 
@@ -91,11 +122,23 @@ function buildUserPrompt(answers: object, score: object): string {
 Assessment Answers:
 ${JSON.stringify(answers, null, 2)}
 
+IMPORTANT - USE THESE EXACT SCORES (do not calculate your own):
 Readiness Score: ${s.total}/100
 Score Breakdown:
 - Infrastructure: ${s.infrastructure}%
 - Security: ${s.security}%
 - Team Readiness: ${s.teamReadiness}%
+
+YOU MUST USE THESE EXACT SCORES IN YOUR JSON RESPONSE — DO NOT CHANGE THEM:
+"readinessScore": {
+  "total": ${s.total},
+  "level": "${s.total >= 71 ? "Advanced" : s.total >= 41 ? "Developing" : "Beginner"}",
+  "breakdown": {
+    "infrastructure": ${s.infrastructure},
+    "security": ${s.security},
+    "teamReadiness": ${s.teamReadiness}
+  }
+}
 
 IMPORTANT CONSTRAINTS:
 - keyFindings: 3 to 5 items only
@@ -103,6 +146,9 @@ IMPORTANT CONSTRAINTS:
 - recommendedServices: 3 to 6 services only
 - migrationRoadmap: exactly 3 phases
 - nextSteps: 3 to 5 actionable steps
+
+CRITICAL FORMAT REQUIREMENT:
+IMPORTANT: nextSteps must be an array of plain strings, NOT objects. Each step should be a simple string.
 
 COST ESTIMATION RULES:
 - Small (1-50 employees): $300-$800/month
@@ -177,6 +223,6 @@ YOU MUST RETURN EXACTLY THIS JSON STRUCTURE — NO DEVIATIONS:
     "currency": "USD",
     "notes": ""
   },
-  "nextSteps": []
+  "nextSteps": ["string", "string"]
 }`;
 }

@@ -243,24 +243,33 @@ export default function ReportPage() {
               </div>
             </div>
             <div style={{ display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }}>
-              <button style={{
-                flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
-                background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
-              }}>
+              <button
+                onClick={() => window.open("mailto:sales@klayytech.com?subject=Migration Plan Request", "_blank")}
+                style={{
+                  flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
+                  background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
+                }}
+              >
                 {ui?.hero.ctaPrimary ?? "Start migration plan"}
               </button>
-              <button style={{
-                flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                background: "rgba(255,255,255,0.12)", color: "#fff",
-                border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-              }}>
-                {ui?.hero.ctaSecondary ?? "Talk to an expert"}
+              <button
+                onClick={() => window.open("mailto:sales@klayytech.com?subject=Security Gap Assessment", "_blank")}
+                style={{
+                  flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
+                  background: "rgba(255,255,255,0.12)", color: "#fff",
+                  border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
+                }}
+              >
+                {ui?.hero.ctaSecondary ?? "Fix critical security gaps"}
               </button>
-              <button style={{
-                flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                background: "rgba(255,255,255,0.12)", color: "#fff",
-                border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-              }}>
+              <button
+                onClick={() => setShowEmailInput(true)}
+                style={{
+                  flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
+                  background: "rgba(255,255,255,0.12)", color: "#fff",
+                  border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
+                }}
+              >
                 Talk to a cloud expert
               </button>
             </div>
@@ -579,7 +588,7 @@ export default function ReportPage() {
                     }}>
                       {i + 1}
                     </div>
-                    {step}
+                    {typeof step === "string" ? step : (step as any).step ?? JSON.stringify(step)}
                   </div>
                 ))}
               </div>

@@ -38,3 +38,9 @@ variable "resource_group_name" {
   type        = string
   default     = "rg-cloudready-dev"
 }
+
+variable "system_prompt" {
+  description = "Azure OpenAI system prompt"
+  type        = string
+  sensitive   = true
+}

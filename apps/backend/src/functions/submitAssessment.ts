@@ -53,11 +53,12 @@ async function submitAssessment(
         failedAt: null
       },
       answers: body.answers,
+      score: body.score,
       insights: {
         topRisk: "",
         topOpportunity: "",
         priority: "",
-        level: "Beginner"
+        level: body.score.total >= 71 ? "Advanced" : body.score.total >= 41 ? "Developing" : "Beginner"
       },
       report: {
         data: null,

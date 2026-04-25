@@ -133,6 +133,7 @@ export interface AssessmentDocument {
     failedAt: string | null;
   };
   answers: AssessmentAnswers;
+  score: AssessmentScore;
   insights: {
     topRisk: string;
     topOpportunity: string;
