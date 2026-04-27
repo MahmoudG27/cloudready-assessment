@@ -180,15 +180,27 @@ export default function ReportPage() {
           <div style={{ padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }}>
             App
           </div>
-          {["Dashboard", "Assessments", "Reports", "Settings"].map(item => (
-            <div key={item} onClick={() => item === "Dashboard" && navigate("/dashboard")} style={{
-              padding: "7px 16px", fontSize: "13px",
-              color: item === "Assessments" ? "#185FA5" : "#6b7280",
-              borderLeft: item === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
-              background: item === "Assessments" ? "#E6F1FB" : "transparent",
-              fontWeight: item === "Assessments" ? 500 : 400,
-              cursor: "pointer"
-            }}>{item}</div>
+          {[
+            { label: "Dashboard", action: () => navigate("/dashboard") },
+            { label: "Assessments", action: () => navigate("/dashboard") },
+            { label: "Reports", action: () => navigate("/dashboard") },
+            { label: "Settings", action: null },
+          ].map(item => (
+            <div
+              key={item.label}
+              onClick={() => item.action?.()}
+              style={{
+                padding: "7px 16px",
+                fontSize: "13px",
+                color: item.label === "Assessments" ? "#185FA5" : item.action ? "#6b7280" : "#d1d5db",
+                borderLeft: item.label === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
+                background: item.label === "Assessments" ? "#E6F1FB" : "transparent",
+                fontWeight: item.label === "Assessments" ? 500 : 400,
+                cursor: item.action ? "pointer" : "default"
+              }}
+            >
+              {item.label}
+            </div>
           ))}
           <div style={{ height: "0.5px", background: "#e5e7eb", margin: "8px 0" }} />
           <div style={{ padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }}>

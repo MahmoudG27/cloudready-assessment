@@ -138,14 +138,20 @@ export default function ReportPage() {
                 }, children: message.text })), _jsxs("div", { style: { display: "flex", flex: 1, overflow: "hidden" }, children: [_jsxs("div", { style: {
                             width: "188px", borderRight: "0.5px solid #e5e7eb",
                             background: "#fff", padding: "12px 0", flexShrink: 0, overflowY: "auto"
-                        }, children: [_jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "App" }), ["Dashboard", "Assessments", "Reports", "Settings"].map(item => (_jsx("div", { onClick: () => item === "Dashboard" && navigate("/dashboard"), style: {
-                                    padding: "7px 16px", fontSize: "13px",
-                                    color: item === "Assessments" ? "#185FA5" : "#6b7280",
-                                    borderLeft: item === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
-                                    background: item === "Assessments" ? "#E6F1FB" : "transparent",
-                                    fontWeight: item === "Assessments" ? 500 : 400,
-                                    cursor: "pointer"
-                                }, children: item }, item))), _jsx("div", { style: { height: "0.5px", background: "#e5e7eb", margin: "8px 0" } }), _jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "This report" }), sections.map(({ id: secId, label }) => (_jsx("div", { onClick: () => scrollTo(secId), style: {
+                        }, children: [_jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "App" }), [
+                                { label: "Dashboard", action: () => navigate("/dashboard") },
+                                { label: "Assessments", action: () => navigate("/dashboard") },
+                                { label: "Reports", action: () => navigate("/dashboard") },
+                                { label: "Settings", action: null },
+                            ].map(item => (_jsx("div", { onClick: () => item.action?.(), style: {
+                                    padding: "7px 16px",
+                                    fontSize: "13px",
+                                    color: item.label === "Assessments" ? "#185FA5" : item.action ? "#6b7280" : "#d1d5db",
+                                    borderLeft: item.label === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
+                                    background: item.label === "Assessments" ? "#E6F1FB" : "transparent",
+                                    fontWeight: item.label === "Assessments" ? 500 : 400,
+                                    cursor: item.action ? "pointer" : "default"
+                                }, children: item.label }, item.label))), _jsx("div", { style: { height: "0.5px", background: "#e5e7eb", margin: "8px 0" } }), _jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "This report" }), sections.map(({ id: secId, label }) => (_jsx("div", { onClick: () => scrollTo(secId), style: {
                                     padding: "5px 16px 5px 22px", fontSize: "12px",
                                     color: activeSection === secId ? "#185FA5" : "#6b7280",
                                     borderLeft: activeSection === secId ? "2px solid #185FA5" : "2px solid transparent",
