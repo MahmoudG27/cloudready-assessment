@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 module "resource_group" {
   source      = "./modules/resource-group"
   name        = var.resource_group_name
@@ -76,23 +78,27 @@ module "functions" {
   depends_on = [module.openai]
 }
 
+resource "azurerm_role_assignment" "current_user_admin" {
+  scope                = module.key_vault.id
+  role_definition_name = "Key Vault Administrator"
+  principal_id         = data.azurerm_client_config.current.object_id
+
+  depends_on = [module.functions]
+}
+
+resource "azurerm_role_assignment" "functions" {
+  scope                = module.key_vault.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = module.functions.principal_id
+
+  depends_on = [module.functions]
+}
+
 resource "azurerm_key_vault_secret" "system_prompt" {
   name         = "system-prompt"
   value        = var.system_prompt
   key_vault_id = module.key_vault.id
   depends_on   = [module.key_vault]
-}
-
-resource "azurerm_key_vault_access_policy" "functions" {
-  key_vault_id = module.key_vault.id
-  tenant_id    = var.tenant_id
-  object_id    = module.functions.principal_id
-
-  secret_permissions = [
-    "Get", "List"
-  ]
-
-  depends_on = [module.functions]
 }
 
 module "static_web_app" {

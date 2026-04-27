@@ -237,3 +237,9 @@ Azure OpenAI
 
 ## 🔥 أهم جملة تاخدها معاك:
 > المشروع ده ممكن يحوّل الـ sales من "manual service" إلى "scalable system"
+
+
+terraform init
+terraform plan -out=tfplan
+terraform show tfplan
+terraform apply tfplan

@@ -26,7 +26,10 @@ resource "azurerm_linux_function_app" "main" {
       node_version = "22"
     }
     cors {
-      allowed_origins = ["https://${var.static_web_app_hostname}"]
+      allowed_origins = [
+        "https://${var.static_web_app_hostname}",
+        "http://localhost:5173"
+      ]
     }
   }
 
