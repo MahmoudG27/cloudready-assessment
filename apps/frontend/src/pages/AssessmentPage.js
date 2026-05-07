@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAssessment } from "../hooks/useAssessment";
-import { calculateScore } from "../utils/scoring";
+import { calculateConfidence, calculateScore } from "../utils/scoring";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
 import LoadingSpinner from "../components/common/LoadingSpinner";
@@ -30,6 +30,12 @@ const INITIAL_ANSWERS = {
     timeline: "",
     primaryGoal: "",
     backupSolution: "",
+    infrastructureType: "",
+    systemAvailability: "",
+    peakUsage: "",
+    sensitiveDataType: "",
+    accessControl: "",
+    priority: "",
 };
 export default function AssessmentPage() {
     const navigate = useNavigate();
@@ -51,16 +57,17 @@ export default function AssessmentPage() {
     function isStepValid() {
         switch (step) {
             case 0: return companyName.trim() !== "" && answers.industry !== "" && answers.companySize !== "" && answers.itTeam !== "";
-            case 1: return answers.infrastructure !== "" && answers.infraAge !== "" && answers.microsoftProducts !== "";
-            case 2: return answers.systems.length > 0 && answers.downtimeCriticality !== "" && answers.newApps !== "";
-            case 3: return answers.sensitiveData !== "" && answers.securityIncidents !== "" && answers.compliance !== "";
-            case 4: return answers.budget !== "" && answers.timeline !== "" && answers.primaryGoal !== "";
+            case 1: return answers.infrastructure !== "" && answers.infraAge !== "" && answers.microsoftProducts !== "" && answers.infrastructureType !== "" && answers.systemAvailability !== "";
+            case 2: return answers.systems.length > 0 && answers.downtimeCriticality !== "" && answers.newApps !== "" && answers.peakUsage !== "";
+            case 3: return answers.sensitiveDataType !== "" && answers.securityIncidents !== "" && answers.compliance !== "" && answers.accessControl !== "";
+            case 4: return answers.budget !== "" && answers.timeline !== "" && answers.primaryGoal !== "" && answers.priority !== "";
             default: return false;
         }
     }
     async function handleSubmit() {
         const score = calculateScore(answers);
-        const id = await submit(companyName, answers, score);
+        const confidence = calculateConfidence(answers);
+        const id = await submit(companyName, answers, score, confidence);
         if (id)
             navigate(`/summary/${id}`);
     }
@@ -111,7 +118,12 @@ export default function AssessmentPage() {
         _jsxs("div", { children: [_jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Company name *" }), _jsx("input", { value: companyName, onChange: (e) => setCompanyName(e.target.value), placeholder: "e.g. MedCare Egypt", style: {
                                 width: "100%", padding: "10px 12px", border: "0.5px solid #d1d5db",
                                 borderRadius: "8px", fontSize: "13px", outline: "none"
-                            } })] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "What is your company's primary industry? *" }), ["Retail", "Healthcare", "Fintech", "SaaS", "Manufacturing", "Other"].map(v => renderOption("industry", v, v))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "How many employees does your company have? *" }), ["1–10", "11–50", "51–200", "200+"].map(v => renderOption("companySize", v, v))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you have a dedicated IT team? *" }), [
+                            } })] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "What is your company's primary industry? *" }), ["Retail", "Healthcare", "Fintech", "SaaS", "Manufacturing", "Other"].map(v => renderOption("industry", v, v))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "How many employees AND active system users? *" }), [
+                            ["1–10", "1–10 employees (≤5 users)"],
+                            ["11–50", "11–50 employees (5–25 users)"],
+                            ["51–200", "51–200 employees (25–100 users)"],
+                            ["200+", "200+ employees (100+ users)"],
+                        ].map(([v, l]) => renderOption("companySize", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you have a dedicated IT team? *" }), [
                             ["Yes, a full IT team", "Yes, a full IT team"],
                             ["Yes, 1-2 IT personnel", "Yes, 1–2 IT personnel"],
                             ["No in-house IT team", "No in-house IT team"],
@@ -126,7 +138,17 @@ export default function AssessmentPage() {
                             ["2-5 years", "2–5 years"],
                             ["More than 5 years", "More than 5 years"],
                             ["Not sure", "Not sure"],
-                        ].map(([v, l]) => renderOption("infraAge", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Which Microsoft technologies are you currently using? *" }), [
+                        ].map(([v, l]) => renderOption("infraAge", v, l))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "What type of infrastructure do you use? *" }), [
+                            ["Virtual machines", "Virtual machines"],
+                            ["Containers (Docker/Kubernetes)", "Containers (Docker/Kubernetes)"],
+                            ["Serverless", "Serverless"],
+                            ["Not sure", "Not sure"],
+                        ].map(([v, l]) => renderOption("infrastructureType", v, l))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "How is your system availability today? *" }), [
+                            ["Frequent downtime", "Frequent downtime"],
+                            ["Occasional issues", "Occasional issues"],
+                            ["Stable", "Stable"],
+                            ["Highly available", "Highly available"],
+                        ].map(([v, l]) => renderOption("systemAvailability", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Which Microsoft technologies are you currently using? *" }), [
                             ["Microsoft 365", "Microsoft 365"],
                             ["Windows Server", "Windows Server"],
                             ["Both", "Both"],
@@ -136,12 +158,27 @@ export default function AssessmentPage() {
                             ["Mission-critical (no downtime acceptable)", "Mission-critical (no downtime acceptable)"],
                             ["Moderate (a few hours acceptable)", "Moderate (a few hours acceptable)"],
                             ["Low impact", "Low impact"],
-                        ].map(([v, l]) => renderOption("downtimeCriticality", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Are you planning to develop new applications? *" }), ["Yes", "No", "Not sure"].map(v => renderOption("newApps", v, v))] })] }),
-        _jsxs("div", { children: [_jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you handle sensitive customer data? *" }), ["Yes", "No", "Not sure"].map(v => renderOption("sensitiveData", v, v))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Have you experienced any security incidents in the past 2 years? *" }), ["Yes", "No", "Prefer not to say"].map(v => renderOption("securityIncidents", v, v))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you have regulatory or compliance requirements? *" }), [
+                        ].map(([v, l]) => renderOption("downtimeCriticality", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Are you planning to develop new applications? *" }), ["Yes", "No", "Not sure"].map(v => renderOption("newApps", v, v))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "What is your peak usage pattern? *" }), [
+                            ["Consistent", "Consistent — usage is steady throughout the year"],
+                            ["Seasonal", "Seasonal — spikes at specific times of year"],
+                            ["Unpredictable spikes", "Unpredictable spikes — sudden bursts of traffic"],
+                            ["Not sure", "Not sure"],
+                        ].map(([v, l]) => renderOption("peakUsage", v, l))] })] }),
+        _jsxs("div", { children: [_jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "What type of sensitive data do you handle? *" }), [
+                            ["None", "None"],
+                            ["Personal data (PII)", "Personal data (PII)"],
+                            ["Financial data", "Financial data"],
+                            ["Health data", "Health data — patient records, medical info"],
+                        ].map(([v, l]) => renderOption("sensitiveDataType", v, l))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Have you experienced any security incidents in the past 2 years? *" }), ["Yes", "No", "Prefer not to say"].map(v => renderOption("securityIncidents", v, v))] }), _jsxs("div", { style: { marginBottom: "20px" }, children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you have regulatory or compliance requirements? *" }), [
                             ["Yes (e.g., GDPR, ISO)", "Yes (e.g., GDPR, ISO)"],
                             ["No", "No"],
                             ["Not sure", "Not sure"],
-                        ].map(([v, l]) => renderOption("compliance", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you have a backup or disaster recovery solution? (optional)" }), [
+                        ].map(([v, l]) => renderOption("compliance", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "How do you currently manage access control? *" }), [
+                            ["No formal system", "No formal system"],
+                            ["Basic passwords", "Basic passwords only"],
+                            ["Role-based access", "Role-based access control (RBAC)"],
+                            ["Identity provider (Azure AD, etc.)", "Identity provider (Azure AD, Okta, etc.)"],
+                        ].map(([v, l]) => renderOption("accessControl", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "Do you have a backup or disaster recovery solution? (optional)" }), [
                             ["Yes, fully implemented", "Yes, fully implemented"],
                             ["Partial solution", "Partial solution"],
                             ["No", "No"],
@@ -163,7 +200,12 @@ export default function AssessmentPage() {
                             ["Scalability", "Scalability"],
                             ["Remote work enablement", "Remote work enablement"],
                             ["All of the above", "All of the above"],
-                        ].map(([v, l]) => renderOption("primaryGoal", v, l))] })] }),
+                        ].map(([v, l]) => renderOption("primaryGoal", v, l))] }), _jsxs("div", { children: [_jsx("label", { style: { fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }, children: "What matters most to your organization? *" }), [
+                            ["Lowest cost", "Lowest cost — minimize cloud spend"],
+                            ["Best performance", "Best performance — speed and reliability"],
+                            ["Maximum security", "Maximum security — data protection first"],
+                            ["Balanced", "Balanced — good mix of all factors"],
+                        ].map(([v, l]) => renderOption("priority", v, l))] })] }),
     ];
     if (loading)
         return _jsx(LoadingSpinner, { message: "Saving assessment..." });

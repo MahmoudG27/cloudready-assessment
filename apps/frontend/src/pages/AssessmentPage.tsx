@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAssessment } from "../hooks/useAssessment";
-import { calculateScore } from "../utils/scoring";
+import { calculateConfidence, calculateScore } from "../utils/scoring";
 import { AssessmentAnswers } from "../types/assessment";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
@@ -32,6 +32,12 @@ const INITIAL_ANSWERS: AssessmentAnswers = {
   timeline: "",
   primaryGoal: "",
   backupSolution: "",
+  infrastructureType: "",
+  systemAvailability: "",
+  peakUsage: "",
+  sensitiveDataType: "",
+  accessControl: "",
+  priority: "",
 };
 
 export default function AssessmentPage() {
@@ -57,17 +63,18 @@ export default function AssessmentPage() {
   function isStepValid(): boolean {
     switch (step) {
       case 0: return companyName.trim() !== "" && answers.industry !== "" && answers.companySize !== "" && answers.itTeam !== "";
-      case 1: return answers.infrastructure !== "" && answers.infraAge !== "" && answers.microsoftProducts !== "";
-      case 2: return answers.systems.length > 0 && answers.downtimeCriticality !== "" && answers.newApps !== "";
-      case 3: return answers.sensitiveData !== "" && answers.securityIncidents !== "" && answers.compliance !== "";
-      case 4: return answers.budget !== "" && answers.timeline !== "" && answers.primaryGoal !== "";
+      case 1: return answers.infrastructure !== "" && answers.infraAge !== "" && answers.microsoftProducts !== "" && answers.infrastructureType !== "" && answers.systemAvailability !== "";
+      case 2: return answers.systems.length > 0 && answers.downtimeCriticality !== "" && answers.newApps !== "" && answers.peakUsage !== "";
+      case 3: return answers.sensitiveDataType !== "" && answers.securityIncidents !== "" && answers.compliance !== "" && answers.accessControl !== "";
+      case 4: return answers.budget !== "" && answers.timeline !== "" && answers.primaryGoal !== "" && answers.priority !== "";
       default: return false;
     }
   }
 
   async function handleSubmit() {
     const score = calculateScore(answers);
-    const id = await submit(companyName, answers, score);
+    const confidence = calculateConfidence(answers);
+    const id = await submit(companyName, answers, score, confidence);
     if (id) navigate(`/summary/${id}`);
   }
 
@@ -161,9 +168,14 @@ export default function AssessmentPage() {
       </div>
       <div style={{ marginBottom: "20px" }}>
         <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
-          How many employees does your company have? *
+          How many employees AND active system users? *
         </label>
-        {["1–10", "11–50", "51–200", "200+"].map(v => renderOption("companySize", v, v))}
+        {[
+          ["1–10", "1–10 employees (≤5 users)"],
+          ["11–50", "11–50 employees (5–25 users)"],
+          ["51–200", "51–200 employees (25–100 users)"],
+          ["200+", "200+ employees (100+ users)"],
+        ].map(([v, l]) => renderOption("companySize", v, l))}
       </div>
       <div>
         <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
@@ -200,6 +212,28 @@ export default function AssessmentPage() {
           ["More than 5 years", "More than 5 years"],
           ["Not sure", "Not sure"],
         ].map(([v, l]) => renderOption("infraAge", v, l))}
+      </div>
+      <div style={{ marginBottom: "20px" }}>
+        <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
+          What type of infrastructure do you use? *
+        </label>
+        {[
+          ["Virtual machines", "Virtual machines"],
+          ["Containers (Docker/Kubernetes)", "Containers (Docker/Kubernetes)"],
+          ["Serverless", "Serverless"],
+          ["Not sure", "Not sure"],
+        ].map(([v, l]) => renderOption("infrastructureType", v, l))}
+      </div>
+      <div style={{ marginBottom: "20px" }}>
+        <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
+          How is your system availability today? *
+        </label>
+        {[
+          ["Frequent downtime", "Frequent downtime"],
+          ["Occasional issues", "Occasional issues"],
+          ["Stable", "Stable"],
+          ["Highly available", "Highly available"],
+        ].map(([v, l]) => renderOption("systemAvailability", v, l))}
       </div>
       <div>
         <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
@@ -240,15 +274,31 @@ export default function AssessmentPage() {
         </label>
         {["Yes", "No", "Not sure"].map(v => renderOption("newApps", v, v))}
       </div>
+      <div>
+        <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
+          What is your peak usage pattern? *
+        </label>
+        {[
+          ["Consistent", "Consistent — usage is steady throughout the year"],
+          ["Seasonal", "Seasonal — spikes at specific times of year"],
+          ["Unpredictable spikes", "Unpredictable spikes — sudden bursts of traffic"],
+          ["Not sure", "Not sure"],
+        ].map(([v, l]) => renderOption("peakUsage", v, l))}
+      </div>
     </div>,
 
     // Step 3 — Security
     <div>
       <div style={{ marginBottom: "20px" }}>
         <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
-          Do you handle sensitive customer data? *
+          What type of sensitive data do you handle? *
         </label>
-        {["Yes", "No", "Not sure"].map(v => renderOption("sensitiveData", v, v))}
+        {[
+          ["None", "None"],
+          ["Personal data (PII)", "Personal data (PII)"],
+          ["Financial data", "Financial data"],
+          ["Health data", "Health data — patient records, medical info"],
+        ].map(([v, l]) => renderOption("sensitiveDataType", v, l))}
       </div>
       <div style={{ marginBottom: "20px" }}>
         <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
@@ -265,6 +315,17 @@ export default function AssessmentPage() {
           ["No", "No"],
           ["Not sure", "Not sure"],
         ].map(([v, l]) => renderOption("compliance", v, l))}
+      </div>
+      <div>
+        <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
+          How do you currently manage access control? *
+        </label>
+        {[
+          ["No formal system", "No formal system"],
+          ["Basic passwords", "Basic passwords only"],
+          ["Role-based access", "Role-based access control (RBAC)"],
+          ["Identity provider (Azure AD, etc.)", "Identity provider (Azure AD, Okta, etc.)"],
+        ].map(([v, l]) => renderOption("accessControl", v, l))}
       </div>
       <div>
         <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
@@ -314,6 +375,17 @@ export default function AssessmentPage() {
           ["Remote work enablement", "Remote work enablement"],
           ["All of the above", "All of the above"],
         ].map(([v, l]) => renderOption("primaryGoal", v, l))}
+      </div>
+      <div>
+        <label style={{ fontSize: "13px", fontWeight: 500, display: "block", marginBottom: "8px" }}>
+          What matters most to your organization? *
+        </label>
+        {[
+          ["Lowest cost", "Lowest cost — minimize cloud spend"],
+          ["Best performance", "Best performance — speed and reliability"],
+          ["Maximum security", "Maximum security — data protection first"],
+          ["Balanced", "Balanced — good mix of all factors"],
+        ].map(([v, l]) => renderOption("priority", v, l))}
       </div>
     </div>,
   ];

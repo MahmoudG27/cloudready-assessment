@@ -24,12 +24,14 @@ const api = axios.create({
 export async function submitAssessment(
   companyName: string,
   answers: AssessmentAnswers,
-  score: AssessmentScore
+  score: AssessmentScore,
+  confidence: number
 ): Promise<ApiResponse<{ id: string; status: string }>> {
   const response = await api.post("/assessment", {
     companyName,
     answers,
     score,
+    confidence,
   });
   return response.data;
 }

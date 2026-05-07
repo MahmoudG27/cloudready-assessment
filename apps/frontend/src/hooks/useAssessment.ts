@@ -34,12 +34,13 @@ export function useAssessment() {
   async function submit(
     companyName: string,
     answers: AssessmentAnswers,
-    score: AssessmentScore
+    score: AssessmentScore,
+    confidence: number
   ): Promise<string | null> {
     setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
-      const response = await submitAssessment(companyName, answers, score);
+      const response = await submitAssessment(companyName, answers, score, confidence);
 
       if (!response.success || !response.data) {
         throw new Error(response.error || "Failed to submit assessment");

@@ -15,6 +15,7 @@ async function submitAssessment(
       companyName: string;
       answers: AssessmentAnswers;
       score: AssessmentScore;
+      confidence: number;
     };
 
     if (!body.companyName || !body.answers || !body.score) {
@@ -43,7 +44,7 @@ async function submitAssessment(
         aiModel: "gpt-4o",
         promptVersion: "v1.0",
         generatedAt: null,
-        confidenceScore: null
+        confidenceScore: body.confidence
       },
       error: {
         message: null,

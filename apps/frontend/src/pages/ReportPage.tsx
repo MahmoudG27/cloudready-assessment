@@ -14,7 +14,7 @@ export default function ReportPage() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [email, setEmail] = useState("");
-  const [showEmailInput, setShowEmailInput] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [activeSection, setActiveSection] = useState("s-hero");
 
@@ -91,9 +91,14 @@ export default function ReportPage() {
     try {
       const response = await sendReport(id, email);
       if (response.success) {
-        setMessage({ type: "success", text: `Report sent to ${email}` });
-        setShowEmailInput(false);
+        setMessage({ type: "success", text: `Report sent to ${email} successfully` });
         setEmail("");
+        setTimeout(() => {
+          setMessage(null);
+          setShowEmailModal(false);
+        }, 3000);
+      } else {
+        setMessage({ type: "error", text: "Failed to send email" });
       }
     } catch {
       setMessage({ type: "error", text: "Failed to send email" });
@@ -137,39 +142,7 @@ export default function ReportPage() {
         <span style={{ fontSize: "15px", fontWeight: 500 }}>
           Klayytech <span style={{ color: "#185FA5" }}>CloudReady</span>
         </span>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <Button onClick={() => navigate("/dashboard")}>Dashboard</Button>
-          <Button onClick={() => setShowEmailInput(!showEmailInput)}>Send email</Button>
-          <Button variant="primary" onClick={handleDownloadPDF} disabled={pdfLoading}>
-            {pdfLoading ? "Generating..." : "Download PDF"}
-          </Button>
-        </div>
       </div>
-
-      {/* Email input */}
-      {showEmailInput && (
-        <div style={{ background: "#E6F1FB", padding: "12px 24px", display: "flex", gap: "8px", alignItems: "center" }}>
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="client@company.com"
-            style={{ padding: "8px 12px", border: "0.5px solid #d1d5db", borderRadius: "8px", fontSize: "13px", flex: 1 }}
-          />
-          <Button variant="primary" onClick={handleSendEmail} disabled={emailLoading || !email}>
-            {emailLoading ? "Sending..." : "Send"}
-          </Button>
-        </div>
-      )}
-
-      {message && (
-        <div style={{
-          padding: "10px 24px", fontSize: "13px",
-          background: message.type === "success" ? "#EAF3DE" : "#FCEBEB",
-          color: message.type === "success" ? "#27500A" : "#791F1F"
-        }}>
-          {message.text}
-        </div>
-      )}
 
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
         {/* Sidebar */}
@@ -180,27 +153,15 @@ export default function ReportPage() {
           <div style={{ padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }}>
             App
           </div>
-          {[
-            { label: "Dashboard", action: () => navigate("/dashboard") },
-            { label: "Assessments", action: () => navigate("/dashboard") },
-            { label: "Reports", action: () => navigate("/dashboard") },
-            { label: "Settings", action: null },
-          ].map(item => (
-            <div
-              key={item.label}
-              onClick={() => item.action?.()}
-              style={{
-                padding: "7px 16px",
-                fontSize: "13px",
-                color: item.label === "Assessments" ? "#185FA5" : item.action ? "#6b7280" : "#d1d5db",
-                borderLeft: item.label === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
-                background: item.label === "Assessments" ? "#E6F1FB" : "transparent",
-                fontWeight: item.label === "Assessments" ? 500 : 400,
-                cursor: item.action ? "pointer" : "default"
-              }}
-            >
-              {item.label}
-            </div>
+          {["Dashboard", "Assessments", "Reports", "Settings"].map(item => (
+            <div key={item} onClick={() => item === "Dashboard" && navigate("/dashboard")} style={{
+              padding: "7px 16px", fontSize: "13px",
+              color: item === "Assessments" ? "#185FA5" : "#6b7280",
+              borderLeft: item === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
+              background: item === "Assessments" ? "#E6F1FB" : "transparent",
+              fontWeight: item === "Assessments" ? 500 : 400,
+              cursor: "pointer"
+            }}>{item}</div>
           ))}
           <div style={{ height: "0.5px", background: "#e5e7eb", margin: "8px 0" }} />
           <div style={{ padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }}>
@@ -256,7 +217,7 @@ export default function ReportPage() {
             </div>
             <div style={{ display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }}>
               <button
-                onClick={() => window.open("mailto:sales@klayytech.com?subject=Migration Plan Request", "_blank")}
+                onClick={() => window.open("mailto:mgamal@klayytech.com?subject=Migration Plan Request", "_blank")}
                 style={{
                   flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
                   background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
@@ -265,7 +226,7 @@ export default function ReportPage() {
                 {ui?.hero.ctaPrimary ?? "Start migration plan"}
               </button>
               <button
-                onClick={() => window.open("mailto:sales@klayytech.com?subject=Security Gap Assessment", "_blank")}
+                onClick={() => window.open(`mailto:mgamal@klayytech.com?subject=Security Assessment — ${report.companyName}&body=Report ID: ${report.id}`, "_blank")}
                 style={{
                   flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
                   background: "rgba(255,255,255,0.12)", color: "#fff",
@@ -273,16 +234,6 @@ export default function ReportPage() {
                 }}
               >
                 {ui?.hero.ctaSecondary ?? "Fix critical security gaps"}
-              </button>
-              <button
-                onClick={() => setShowEmailInput(true)}
-                style={{
-                  flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                  background: "rgba(255,255,255,0.12)", color: "#fff",
-                  border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-                }}
-              >
-                Talk to a cloud expert
               </button>
             </div>
             <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.55)", textAlign: "center", marginTop: "8px" }}>
@@ -606,24 +557,109 @@ export default function ReportPage() {
               </div>
             </div>
           </Card>
-
+          
           {/* Footer */}
-          <div style={{
-            background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px",
-            padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px", marginBottom: "0"
-          }}>
+          <div style={{ background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px", padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px" }}>
             <div style={{ fontSize: "11px", color: "#6b7280", marginRight: "auto", lineHeight: 1.5 }}>
               {report.id} · KlayyTech CloudReady · Azure OpenAI powered<br />
               Reviewed by KlayyTech Cloud Team · Confidence: {report.meta?.confidenceScore ?? 82}%
             </div>
-            <Button onClick={() => setShowEmailInput(true)}>Send to client</Button>
-            <Button variant="primary" onClick={handleDownloadPDF} disabled={pdfLoading}>
-              {pdfLoading ? "Generating..." : "Download PDF"}
-            </Button>
+              <Button variant="primary" onClick={() => setShowEmailModal(true)}>
+                Send report to client
+              </Button>
           </div>
 
         </div>
       </div>
+      {showEmailModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          background: "rgba(0,0,0,0.4)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999
+        }}>
+
+          <div style={{
+            width: "420px",
+            background: "#fff",
+            borderRadius: "12px",
+            padding: "20px",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.2)"
+          }}>
+
+            <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: "10px" }}>
+              Send report to client
+            </div>
+
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="client@company.com"
+              style={{
+                width: "100%",
+                padding: "10px 12px",
+                border: "1px solid #d1d5db",
+                borderRadius: "8px",
+                fontSize: "13px",
+                marginBottom: "12px"
+              }}
+            />
+
+            {message && (
+              <div style={{
+                marginBottom: "10px",
+                padding: "10px 12px",
+                borderRadius: "8px",
+                fontSize: "13px",
+                background: message.type === "success" ? "#EAF3DE" : "#FCEBEB",
+                color: message.type === "success" ? "#27500A" : "#791F1F"
+              }}>
+                {message.text}
+              </div>
+            )}
+
+            <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+              <button
+                onClick={() => {
+                  setShowEmailModal(false);
+                  setEmail("");
+                }}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  border: "1px solid #d1d5db",
+                  background: "#fff",
+                  cursor: "pointer"
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleSendEmail}
+                disabled={emailLoading || !email}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  border: "none",
+                  background: "#185FA5",
+                  color: "#fff",
+                  cursor: "pointer"
+                }}
+              >
+                {emailLoading ? "Sending..." : "Send"}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }

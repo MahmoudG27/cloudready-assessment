@@ -11,11 +11,12 @@ const api = axios.create({
     },
 });
 // ===== Submit Assessment =====
-export async function submitAssessment(companyName, answers, score) {
+export async function submitAssessment(companyName, answers, score, confidence) {
     const response = await api.post("/assessment", {
         companyName,
         answers,
         score,
+        confidence,
     });
     return response.data;
 }

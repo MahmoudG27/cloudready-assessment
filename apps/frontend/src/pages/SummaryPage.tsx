@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAssessment } from "../hooks/useAssessment";
 import { getAssessment } from "../services/api";
 import { AssessmentDocument } from "../types/assessment";
-import { calculateScore } from "../utils/scoring";
+import { calculateScore, calculateConfidence } from "../utils/scoring";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
 import LoadingSpinner from "../components/common/LoadingSpinner";
@@ -46,6 +46,7 @@ export default function SummaryPage() {
   if (!assessment) return <div style={{ padding: "24px", color: "#dc2626" }}>Assessment not found</div>;
 
   const score = calculateScore(assessment.answers);
+  const confidence = calculateConfidence(assessment.answers);
 
   function getScoreColor(total: number) {
     if (total >= 71) return "#639922";

@@ -13,7 +13,7 @@ export default function ReportPage() {
     const [pdfLoading, setPdfLoading] = useState(false);
     const [emailLoading, setEmailLoading] = useState(false);
     const [email, setEmail] = useState("");
-    const [showEmailInput, setShowEmailInput] = useState(false);
+    const [showEmailModal, setShowEmailModal] = useState(false);
     const [message, setMessage] = useState(null);
     const [activeSection, setActiveSection] = useState("s-hero");
     const sections = [
@@ -94,9 +94,15 @@ export default function ReportPage() {
         try {
             const response = await sendReport(id, email);
             if (response.success) {
-                setMessage({ type: "success", text: `Report sent to ${email}` });
-                setShowEmailInput(false);
+                setMessage({ type: "success", text: `Report sent to ${email} successfully` });
                 setEmail("");
+                setTimeout(() => {
+                    setMessage(null);
+                    setShowEmailModal(false);
+                }, 3000);
+            }
+            else {
+                setMessage({ type: "error", text: "Failed to send email" });
             }
         }
         catch {
@@ -127,31 +133,21 @@ export default function ReportPage() {
             return { bg: "#FAEEDA", color: "#633806", border: "#FAC775", left: "#EF9F27" };
         return { bg: "#EAF3DE", color: "#27500A", border: "#C0DD97", left: "#639922" };
     }
-    return (_jsxs("div", { style: { minHeight: "100vh", background: "#f9fafb", display: "flex", flexDirection: "column" }, children: [_jsxs("div", { style: {
+    return (_jsxs("div", { style: { minHeight: "100vh", background: "#f9fafb", display: "flex", flexDirection: "column" }, children: [_jsx("div", { style: {
                     background: "#fff", borderBottom: "0.5px solid #e5e7eb",
                     padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between",
                     flexShrink: 0
-                }, children: [_jsxs("span", { style: { fontSize: "15px", fontWeight: 500 }, children: ["Klayytech ", _jsx("span", { style: { color: "#185FA5" }, children: "CloudReady" })] }), _jsxs("div", { style: { display: "flex", gap: "8px", alignItems: "center" }, children: [_jsx(Button, { onClick: () => navigate("/dashboard"), children: "Dashboard" }), _jsx(Button, { onClick: () => setShowEmailInput(!showEmailInput), children: "Send email" }), _jsx(Button, { variant: "primary", onClick: handleDownloadPDF, disabled: pdfLoading, children: pdfLoading ? "Generating..." : "Download PDF" })] })] }), showEmailInput && (_jsxs("div", { style: { background: "#E6F1FB", padding: "12px 24px", display: "flex", gap: "8px", alignItems: "center" }, children: [_jsx("input", { value: email, onChange: (e) => setEmail(e.target.value), placeholder: "client@company.com", style: { padding: "8px 12px", border: "0.5px solid #d1d5db", borderRadius: "8px", fontSize: "13px", flex: 1 } }), _jsx(Button, { variant: "primary", onClick: handleSendEmail, disabled: emailLoading || !email, children: emailLoading ? "Sending..." : "Send" })] })), message && (_jsx("div", { style: {
-                    padding: "10px 24px", fontSize: "13px",
-                    background: message.type === "success" ? "#EAF3DE" : "#FCEBEB",
-                    color: message.type === "success" ? "#27500A" : "#791F1F"
-                }, children: message.text })), _jsxs("div", { style: { display: "flex", flex: 1, overflow: "hidden" }, children: [_jsxs("div", { style: {
+                }, children: _jsxs("span", { style: { fontSize: "15px", fontWeight: 500 }, children: ["Klayytech ", _jsx("span", { style: { color: "#185FA5" }, children: "CloudReady" })] }) }), _jsxs("div", { style: { display: "flex", flex: 1, overflow: "hidden" }, children: [_jsxs("div", { style: {
                             width: "188px", borderRight: "0.5px solid #e5e7eb",
                             background: "#fff", padding: "12px 0", flexShrink: 0, overflowY: "auto"
-                        }, children: [_jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "App" }), [
-                                { label: "Dashboard", action: () => navigate("/dashboard") },
-                                { label: "Assessments", action: () => navigate("/dashboard") },
-                                { label: "Reports", action: () => navigate("/dashboard") },
-                                { label: "Settings", action: null },
-                            ].map(item => (_jsx("div", { onClick: () => item.action?.(), style: {
-                                    padding: "7px 16px",
-                                    fontSize: "13px",
-                                    color: item.label === "Assessments" ? "#185FA5" : item.action ? "#6b7280" : "#d1d5db",
-                                    borderLeft: item.label === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
-                                    background: item.label === "Assessments" ? "#E6F1FB" : "transparent",
-                                    fontWeight: item.label === "Assessments" ? 500 : 400,
-                                    cursor: item.action ? "pointer" : "default"
-                                }, children: item.label }, item.label))), _jsx("div", { style: { height: "0.5px", background: "#e5e7eb", margin: "8px 0" } }), _jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "This report" }), sections.map(({ id: secId, label }) => (_jsx("div", { onClick: () => scrollTo(secId), style: {
+                        }, children: [_jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "App" }), ["Dashboard", "Assessments", "Reports", "Settings"].map(item => (_jsx("div", { onClick: () => item === "Dashboard" && navigate("/dashboard"), style: {
+                                    padding: "7px 16px", fontSize: "13px",
+                                    color: item === "Assessments" ? "#185FA5" : "#6b7280",
+                                    borderLeft: item === "Assessments" ? "2px solid #185FA5" : "2px solid transparent",
+                                    background: item === "Assessments" ? "#E6F1FB" : "transparent",
+                                    fontWeight: item === "Assessments" ? 500 : 400,
+                                    cursor: "pointer"
+                                }, children: item }, item))), _jsx("div", { style: { height: "0.5px", background: "#e5e7eb", margin: "8px 0" } }), _jsx("div", { style: { padding: "8px 16px 4px", fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em" }, children: "This report" }), sections.map(({ id: secId, label }) => (_jsx("div", { onClick: () => scrollTo(secId), style: {
                                     padding: "5px 16px 5px 22px", fontSize: "12px",
                                     color: activeSection === secId ? "#185FA5" : "#6b7280",
                                     borderLeft: activeSection === secId ? "2px solid #185FA5" : "2px solid transparent",
@@ -169,18 +165,14 @@ export default function ReportPage() {
                                                             display: "flex", alignItems: "center", gap: "8px",
                                                             background: "rgba(255,255,255,0.12)", border: "0.5px solid rgba(255,255,255,0.2)",
                                                             borderRadius: "8px", padding: "8px 12px", fontSize: "12px"
-                                                        }, children: [_jsx("div", { style: { width: "7px", height: "7px", borderRadius: "50%", background: "#F7C1C1", flexShrink: 0 } }), ui.highlights[0]] }))] })] }), _jsxs("div", { style: { display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }, children: [_jsx("button", { onClick: () => window.open("mailto:sales@klayytech.com?subject=Migration Plan Request", "_blank"), style: {
+                                                        }, children: [_jsx("div", { style: { width: "7px", height: "7px", borderRadius: "50%", background: "#F7C1C1", flexShrink: 0 } }), ui.highlights[0]] }))] })] }), _jsxs("div", { style: { display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }, children: [_jsx("button", { onClick: () => window.open("mailto:mgamal@klayytech.com?subject=Migration Plan Request", "_blank"), style: {
                                                     flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
                                                     background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
-                                                }, children: ui?.hero.ctaPrimary ?? "Start migration plan" }), _jsx("button", { onClick: () => window.open("mailto:sales@klayytech.com?subject=Security Gap Assessment", "_blank"), style: {
+                                                }, children: ui?.hero.ctaPrimary ?? "Start migration plan" }), _jsx("button", { onClick: () => window.open(`mailto:mgamal@klayytech.com?subject=Security Assessment — ${report.companyName}&body=Report ID: ${report.id}`, "_blank"), style: {
                                                     flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
                                                     background: "rgba(255,255,255,0.12)", color: "#fff",
                                                     border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-                                                }, children: ui?.hero.ctaSecondary ?? "Fix critical security gaps" }), _jsx("button", { onClick: () => setShowEmailInput(true), style: {
-                                                    flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                                                    background: "rgba(255,255,255,0.12)", color: "#fff",
-                                                    border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-                                                }, children: "Talk to a cloud expert" })] }), _jsx("div", { style: { fontSize: "11px", color: "rgba(255,255,255,0.55)", textAlign: "center", marginTop: "8px" }, children: "A KlayyTech cloud architect will contact you within 24 hours" })] }), _jsx("div", { style: {
+                                                }, children: ui?.hero.ctaSecondary ?? "Fix critical security gaps" })] }), _jsx("div", { style: { fontSize: "11px", color: "rgba(255,255,255,0.55)", textAlign: "center", marginTop: "8px" }, children: "A KlayyTech cloud architect will contact you within 24 hours" })] }), _jsx("div", { style: {
                                     background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px",
                                     padding: "12px 20px", marginBottom: "14px",
                                     display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"
@@ -247,8 +239,52 @@ export default function ReportPage() {
                                                             color: i === 0 ? "#fff" : "#6b7280",
                                                             display: "flex", alignItems: "center", justifyContent: "center",
                                                             fontSize: "10px", fontWeight: 500
-                                                        }, children: i + 1 }), typeof step === "string" ? step : step.step ?? JSON.stringify(step)] }, i))) })] }) }), _jsxs("div", { style: {
-                                    background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px",
-                                    padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px", marginBottom: "0"
-                                }, children: [_jsxs("div", { style: { fontSize: "11px", color: "#6b7280", marginRight: "auto", lineHeight: 1.5 }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Azure OpenAI powered", _jsx("br", {}), "Reviewed by KlayyTech Cloud Team \u00B7 Confidence: ", report.meta?.confidenceScore ?? 82, "%"] }), _jsx(Button, { onClick: () => setShowEmailInput(true), children: "Send to client" }), _jsx(Button, { variant: "primary", onClick: handleDownloadPDF, disabled: pdfLoading, children: pdfLoading ? "Generating..." : "Download PDF" })] })] })] })] }));
+                                                        }, children: i + 1 }), typeof step === "string" ? step : step.step ?? JSON.stringify(step)] }, i))) })] }) }), _jsxs("div", { style: { background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px", padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px" }, children: [_jsxs("div", { style: { fontSize: "11px", color: "#6b7280", marginRight: "auto", lineHeight: 1.5 }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Azure OpenAI powered", _jsx("br", {}), "Reviewed by KlayyTech Cloud Team \u00B7 Confidence: ", report.meta?.confidenceScore ?? 82, "%"] }), _jsx(Button, { variant: "primary", onClick: () => setShowEmailModal(true), children: "Send report to client" })] })] })] }), showEmailModal && (_jsx("div", { style: {
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    background: "rgba(0,0,0,0.4)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    zIndex: 9999
+                }, children: _jsxs("div", { style: {
+                        width: "420px",
+                        background: "#fff",
+                        borderRadius: "12px",
+                        padding: "20px",
+                        boxShadow: "0 20px 60px rgba(0,0,0,0.2)"
+                    }, children: [_jsx("div", { style: { fontSize: "14px", fontWeight: 600, marginBottom: "10px" }, children: "Send report to client" }), _jsx("input", { value: email, onChange: (e) => setEmail(e.target.value), placeholder: "client@company.com", style: {
+                                width: "100%",
+                                padding: "10px 12px",
+                                border: "1px solid #d1d5db",
+                                borderRadius: "8px",
+                                fontSize: "13px",
+                                marginBottom: "12px"
+                            } }), message && (_jsx("div", { style: {
+                                marginBottom: "10px",
+                                padding: "10px 12px",
+                                borderRadius: "8px",
+                                fontSize: "13px",
+                                background: message.type === "success" ? "#EAF3DE" : "#FCEBEB",
+                                color: message.type === "success" ? "#27500A" : "#791F1F"
+                            }, children: message.text })), _jsxs("div", { style: { display: "flex", gap: "8px", justifyContent: "flex-end" }, children: [_jsx("button", { onClick: () => {
+                                        setShowEmailModal(false);
+                                        setEmail("");
+                                    }, style: {
+                                        padding: "8px 12px",
+                                        borderRadius: "8px",
+                                        border: "1px solid #d1d5db",
+                                        background: "#fff",
+                                        cursor: "pointer"
+                                    }, children: "Cancel" }), _jsx("button", { onClick: handleSendEmail, disabled: emailLoading || !email, style: {
+                                        padding: "8px 12px",
+                                        borderRadius: "8px",
+                                        border: "none",
+                                        background: "#185FA5",
+                                        color: "#fff",
+                                        cursor: "pointer"
+                                    }, children: emailLoading ? "Sending..." : "Send" })] })] }) }))] }));
 }

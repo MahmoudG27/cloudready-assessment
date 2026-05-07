@@ -9,10 +9,10 @@ export function useAssessment() {
         pdfUrl: null,
     });
     // ===== Submit Assessment =====
-    async function submit(companyName, answers, score) {
+    async function submit(companyName, answers, score, confidence) {
         setState((prev) => ({ ...prev, loading: true, error: null }));
         try {
-            const response = await submitAssessment(companyName, answers, score);
+            const response = await submitAssessment(companyName, answers, score, confidence);
             if (!response.success || !response.data) {
                 throw new Error(response.error || "Failed to submit assessment");
             }

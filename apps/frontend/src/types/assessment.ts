@@ -23,6 +23,12 @@ export interface AssessmentAnswers {
   timeline: string;
   primaryGoal: string;
   backupSolution: string;
+  infrastructureType: string;
+  systemAvailability: string;
+  peakUsage: string;
+  sensitiveDataType: string;
+  accessControl: string;
+  priority: string;
 }
 
 export interface AssessmentScore {
