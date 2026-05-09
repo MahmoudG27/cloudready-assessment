@@ -23,29 +23,32 @@ This tool automates that process:
 ---
 
 ## 🏗️ Architecture
+
+```text
 ┌─────────────────────────────────────────────────────┐
 │                    Frontend                         │
 │         React + TypeScript on Azure Static Web Apps │
 └─────────────────────┬───────────────────────────────┘
-│ HTTPS
+                      │ HTTPS
 ┌─────────────────────▼───────────────────────────────┐
 │                    Backend                          │
 │              Azure Functions (Node.js)              │
 │  ┌─────────────┐  ┌──────────────┐  ┌────────────┐  │
-│  │  Assessment │  │   Report     │  │    PDF     │  │
+│  │ Assessment  │  │   Report     │  │    PDF     │  │
 │  │     API     │  │  Generator   │  │  Service   │  │
 │  └──────┬──────┘  └──────┬───────┘  └─────┬──────┘  │
 └─────────┼────────────────┼────────────────┼─────────┘
-│                │                │
+          │                │                │
 ┌─────────▼────┐  ┌────────▼──────┐  ┌─────▼────────┐
 │  Cosmos DB   │  │ Azure OpenAI  │  │ Blob Storage │
 │  (NoSQL)     │  │   (GPT-4o)    │  │  (PDF store) │
 └──────────────┘  └───────────────┘  └──────────────┘
-│                                  │
-┌─────────▼──────────────────────────────────▼───────┐
-│                  Supporting Services                │
-│   Key Vault  │  App Insights  │  Logic Apps (Email) │
+
+┌─────────────────────────────────────────────────────┐
+│ Supporting Services                                 │
+│ Key Vault │ App Insights │ Logic Apps (Email)       │
 └─────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -136,6 +139,8 @@ confidence = 95 - (notSureAnswers * 8) - penalties
 ---
 
 ## 📁 Project Structure
+
+```text
 cloudready-assessment/
 ├── apps/
 │   ├── frontend/                 # React application
@@ -163,6 +168,7 @@ cloudready-assessment/
 │       └── modules/              # One module per Azure service
 └── .github/
 └── workflows/                # CI/CD pipelines
+```
 
 ---
 
@@ -291,7 +297,7 @@ The AI cannot modify calculated scores. Scores are computed deterministically an
 
 **Mahmoud Gamal**  
 Cloud & DevOps Engineer | AZ-400 | AZ-204 | AZ-104 | CKA | RHCE  
-[LinkedIn](www.linkedin.com/in/mahmoud-gamal-593039257) | [GitHub](https://github.com/MahmoudG27)
+[LinkedIn](https://www.linkedin.com/in/mahmoud-gamal-593039257) | [GitHub](https://www.github.com/MahmoudG27)
 
 ---
 
