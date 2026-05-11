@@ -4,6 +4,7 @@ import { generateReportFromAI } from "../lib/openaiClient";
 import { AssessmentDocument, ReportData } from "../types/assessment";
 import { ApiResponse } from "../types/api";
 import { applyRecommendationRules } from "../lib/recommendationRules";
+import { calculatePricing } from "../lib/pricingEngine";
 
 async function generateReport(
   request: HttpRequest,
@@ -40,13 +41,15 @@ async function generateReport(
     });
 
     const rulesOutput = applyRecommendationRules(document.answers);
+    const pricing = calculatePricing(rulesOutput.recommendedServices, document.answers);
 
     // 3. Call OpenAI
     context.log("Score being sent to AI:", JSON.stringify((document as any).score));
     const reportData = await generateReportFromAI(
       document.answers,
       (document as any).score ?? { total: 0, infrastructure: 0, security: 0, teamReadiness: 0 },
-      rulesOutput
+      rulesOutput,
+      pricing
     ) as ReportData;
     context.log("Score from AI:", JSON.stringify(reportData.readinessScore));
     context.log("AI Response structure:", JSON.stringify(Object.keys(reportData)));

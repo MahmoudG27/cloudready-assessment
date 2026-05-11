@@ -1,6 +1,7 @@
 import OpenAI from "openai/index.mjs";
 import { ReportData } from "../types/assessment";
 import { RulesOutput } from "./recommendationRules";
+import { calculatePricing } from "./pricingEngine";
 
 if (!process.env.OPENAI_API_KEY) throw new Error("Missing OPENAI_API_KEY");
 if (!process.env.OPENAI_ENDPOINT) throw new Error("Missing OPENAI_ENDPOINT");
@@ -135,7 +136,8 @@ BALANCED APPROACH PRIORITY:
 export async function generateReportFromAI(
   answers: object,
   score: object,
-  rules: RulesOutput
+  rules: RulesOutput,
+  pricing: { min: number; max: number; notes: string }
 ): Promise<object> {
   const a = answers as any;
 
@@ -192,6 +194,13 @@ export async function generateReportFromAI(
         security: s.security,
         teamReadiness: s.teamReadiness
       }
+    };
+
+    parsed.estimatedMonthlyCost = {
+      min: pricing.min,
+      max: pricing.max,
+      currency: "USD",
+      notes: pricing.notes
     };
 
     return parsed;

@@ -23,3 +23,232 @@ Roadmap must be practical, phased, and reference KlayyTech support where relevan
 Assumptions made during report generation must be noted in estimatedMonthlyCost notes.
 
 CRITICAL: Return raw JSON only. Do NOT wrap in markdown. Do NOT use backticks. Do NOT write json before the opening brace.
+
+
+## 1. What is your company's primary industry?
+
+السؤال معناه:
+**الشركة بتشتغل في مجال إيه؟**
+
+### الاختيارات:
+
+* **Retail**
+  تجارة وبيع منتجات للعملاء
+  مثال: محلات ملابس – سوبر ماركت – إلكترونيات – e-commerce
+
+* **Healthcare**
+  المجال الطبي والصحي
+  مثال: مستشفيات – عيادات – معامل تحاليل – شركات تأمين طبي
+
+* **Fintech**
+  شركات التكنولوجيا المالية
+  مثال: محافظ إلكترونية – تطبيقات دفع – أنظمة بنكية – تحويل أموال
+
+* **SaaS**
+  اختصار Software as a Service
+  يعني شركة بتقدم برنامج كخدمة أونلاين
+  مثال: CRM online – ERP online – منصات اشتراكات
+
+* **Manufacturing**
+  التصنيع والمصانع
+  مثال: مصانع أغذية – ملابس – أجهزة – مواد بناء
+
+---
+
+## 2. Do you have a dedicated IT team?
+
+السؤال معناه:
+**هل عندكم فريق IT مسؤول عن الأنظمة والسيرفرات والدعم التقني؟**
+
+### معنى:
+
+* **No in-house IT team**
+  يعني **مفيش فريق IT داخلي داخل الشركة**
+  وغالبًا بتعتمدوا على:
+
+  * شركة خارجية
+  * Freelancer
+  * أو مفيش إدارة IT أصلًا
+
+---
+
+## 3. Where is your current IT infrastructure hosted?
+
+السؤال معناه:
+**الأنظمة والسيرفرات بتاعتكم موجودة ومستضافة فين؟**
+
+### الاختيارات:
+
+* **On-premises (own servers)**
+  السيرفرات موجودة داخل الشركة نفسها
+  يعني عندكم أجهزة وسيرفرات فعلية في المكتب أو الداتا سنتر الخاص بيكم
+
+* **Third-party hosting**
+  مستضافة عند شركة تانية
+  مثال:
+
+  * شركة استضافة
+  * Data center خارجي
+  * VPS provider
+
+* **Partially on cloud (hybrid)**
+  جزء عندكم وجزء على الكلاود
+  مثال:
+
+  * Database داخل الشركة
+  * والتطبيق على Azure أو AWS
+
+* **No existing infrastructure**
+  مفيش بنية تحتية حاليًا
+  يعني لسه بداية أو كل الشغل بسيط بدون سيرفرات وأنظمة واضحة
+
+---
+
+## 4. How is your system availability today?
+
+السؤال معناه:
+**الأنظمة عندكم مستقرة وقد إيه بتقع أو يحصل Downtime؟**
+
+### الاختيارات:
+
+* **Frequent downtime**
+  الأعطال بتحصل كتير
+  والسيستم بيقف بشكل متكرر
+
+* **Occasional issues**
+  أحيانًا بتحصل مشاكل أو توقفات
+  لكن مش باستمرار
+
+* **Stable**
+  النظام مستقر غالب الوقت
+  والأعطال قليلة
+
+* **Highly available**
+  النظام شبه شغال 24/7
+  وفيه High Availability وReliability قوية
+
+---
+
+## 5. Which systems do you currently use?
+
+السؤال معناه:
+**إيه الأنظمة أو البرامج اللي الشركة شغالة بيها حاليًا؟**
+
+### معنى الاختيارات:
+
+* **ERP system**
+  نظام لإدارة موارد الشركة
+  زي:
+
+  * الحسابات
+  * المخزون
+  * المشتريات
+  * الرواتب
+
+  أمثلة:
+
+  * SAP
+  * Odoo
+  * Oracle ERP
+
+---
+
+* **CRM system**
+  نظام لإدارة العملاء والمبيعات
+
+  بيستخدم لـ:
+
+  * متابعة العملاء
+  * تسجيل المكالمات
+  * إدارة الـ leads
+  * المبيعات
+
+  أمثلة:
+
+  * Salesforce
+  * HubSpot
+  * Zoho CRM
+
+---
+
+* **Custom-built applications**
+  برامج معمولة مخصوص للشركة
+  يعني مش برنامج جاهز من السوق
+
+  مثال:
+
+  * سيستم معمول بـ React + .NET
+  * Dashboard داخلية
+  * تطبيق خاص بالشركة
+
+---
+
+## 6. What is your peak usage pattern?
+
+السؤال معناه:
+**شكل الضغط أو استخدام النظام بيكون عامل إزاي؟**
+
+### الاختيارات:
+
+* **Consistent**
+  الاستخدام ثابت تقريبًا طول السنة
+  مفيش ضغط مفاجئ
+
+* **Seasonal**
+  في مواسم بيزيد فيها الاستخدام جدًا
+  مثال:
+
+  * رمضان
+  * Black Friday
+  * بداية الدراسة
+
+* **Unpredictable spikes**
+  في ضغط مفاجئ وغير متوقع
+  مثال:
+
+  * حملة إعلانية
+  * Trend
+  * Traffic مفاجئ
+
+* **Not sure**
+  مش متأكد
+
+---
+
+## 7. What type of sensitive data do you handle?
+
+السؤال معناه:
+**إيه نوع البيانات الحساسة اللي بتتعاملوا معاها؟**
+
+### الاختيارات:
+
+* **None**
+  مفيش بيانات حساسة
+
+* **Personal data (PII)**
+  بيانات شخصية للأفراد
+  مثل:
+
+  * الاسم
+  * الرقم القومي
+  * رقم التليفون
+  * الإيميل
+  * العنوان
+
+* **Financial data**
+  بيانات مالية
+  مثل:
+
+  * بطاقات دفع
+  * حسابات بنكية
+  * معاملات مالية
+  * فواتير
+
+* **Health data**
+  بيانات طبية وصحية
+  مثل:
+
+  * ملفات مرضى
+  * تشخيصات
+  * تحاليل
+  * تقارير طبية
