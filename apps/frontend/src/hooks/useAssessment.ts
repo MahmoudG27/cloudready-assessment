@@ -35,25 +35,22 @@ export function useAssessment() {
     companyName: string,
     answers: AssessmentAnswers,
     score: AssessmentScore,
-    confidence: number
+    confidence: number,
+    token?: string
   ): Promise<string | null> {
     setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
-      const response = await submitAssessment(companyName, answers, score, confidence);
-
+      const response = await submitAssessment(companyName, answers, score, confidence, token);
       if (!response.success || !response.data) {
         throw new Error(response.error || "Failed to submit assessment");
       }
-
       setState((prev) => ({
         ...prev,
         loading: false,
         assessmentId: response.data!.id,
       }));
-
       return response.data.id;
-
     } catch (error) {
       setState((prev) => ({
         ...prev,

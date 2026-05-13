@@ -3,6 +3,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AssessmentPage from "./pages/AssessmentPage";
 import SummaryPage from "./pages/SummaryPage";
 import ReportPage from "./pages/ReportPage";
+import ClientPortalPage from "./pages/ClientPortalPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/summary/:id" element={<SummaryPage />} />
         <Route path="/report/:id" element={<ReportPage />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/a/:token" element={<ClientPortalPage />} />
       </Routes>
     </BrowserRouter>
   );

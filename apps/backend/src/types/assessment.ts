@@ -122,6 +122,7 @@ export interface AssessmentDocument {
   id: string;
   userId: string;
   companyName: string;
+  invitationToken?: string;
   createdAt: string;
   updatedAt: string;
   status: AssessmentStatus;
@@ -157,4 +158,20 @@ export interface AssessmentDocument {
   };
   pdfUrl: string | null;
   sharedLink: string | null;
+}
+
+export interface InvitationDocument {
+  id: string;
+  token: string;
+  email: string;
+  companyName: string;
+  industry?: string;
+  notes?: string;
+  status: "pending" | "completed" | "expired";
+  assessmentId: string | null;
+  createdBy: string;
+  createdAt: string;
+  expiresAt: string;
+  completedAt: string | null;
+  lastAccessedAt?: string;
 }

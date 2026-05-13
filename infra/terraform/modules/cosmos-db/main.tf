@@ -69,6 +69,13 @@ resource "azurerm_cosmosdb_sql_container" "assessments" {
   }
 }
 
+resource "azurerm_cosmosdb_sql_container" "invitations" {
+  name                = "invitations"
+  resource_group_name = var.resource_group_name
+  account_name        = azurerm_cosmosdb_account.main.name
+  database_name       = azurerm_cosmosdb_sql_database.main.name
+  partition_key_paths = ["/token"]
+}
 
 # Serverless — We chose "EnableServerless" instead of provisioned throughput because it saves a lot of cost in development. If we later need a constant throughput in production, we'll change this.
 

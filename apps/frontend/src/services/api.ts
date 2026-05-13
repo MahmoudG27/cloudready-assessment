@@ -25,13 +25,15 @@ export async function submitAssessment(
   companyName: string,
   answers: AssessmentAnswers,
   score: AssessmentScore,
-  confidence: number
+  confidence: number,
+  token?: string
 ): Promise<ApiResponse<{ id: string; status: string }>> {
   const response = await api.post("/assessment", {
     companyName,
     answers,
     score,
     confidence,
+    token,
   });
   return response.data;
 }
@@ -88,5 +90,36 @@ export async function sendReport(
   email: string
 ): Promise<ApiResponse<{ id: string; sentTo: string }>> {
   const response = await api.post(`/assessment/${id}/send`, { email });
+  return response.data;
+}
+
+// ===== Invitation APIs =====
+export async function validateInvitationToken(
+  token: string
+): Promise<ApiResponse<{
+  status: string;
+  companyName: string;
+  email: string;
+  industry: string | null;
+  expiresAt: string;
+  assessmentId: string | null;
+}>> {
+  const response = await api.get(`/invitations/${token}/validate`);
+  return response.data;
+}
+
+export async function createInvitation(data: {
+  email: string;
+  companyName: string;
+  industry?: string;
+  notes?: string;
+  createdBy: string;
+}): Promise<ApiResponse<{ token: string; inviteUrl: string; expiresAt: string }>> {
+  const response = await api.post("/invitations/create", data);
+  return response.data;
+}
+
+export async function getInvitations(): Promise<ApiResponse<any[]>> {
+  const response = await api.get("/invitations");
   return response.data;
 }

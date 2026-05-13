@@ -1,7 +1,7 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { v4 as uuidv4 } from "uuid";
-import { getContainer } from "../lib/cosmosClient";
-import { AssessmentDocument, AssessmentAnswers, AssessmentScore } from "../types/assessment";
+import { getContainer, getInvitationsContainer } from "../lib/cosmosClient";
+import { AssessmentDocument, AssessmentAnswers, AssessmentScore, InvitationDocument } from "../types/assessment";
 import { ApiResponse } from "../types/api";
 
 async function submitAssessment(
@@ -16,6 +16,7 @@ async function submitAssessment(
       answers: AssessmentAnswers;
       score: AssessmentScore;
       confidence: number;
+      token?: string;
     };
 
     if (!body.companyName || !body.answers || !body.score) {
@@ -29,6 +30,37 @@ async function submitAssessment(
       };
     }
 
+    // 1. Validate token FIRST
+    if (body.token) {
+      try {
+        const invContainer = getInvitationsContainer();
+        const { resource: inv } = await invContainer
+          .item(body.token, body.token)
+          .read<InvitationDocument>();
+
+        if (!inv || inv.status !== "pending" || new Date() > new Date(inv.expiresAt)) {
+          return {
+            status: 400,
+            jsonBody: {
+              success: false,
+              data: null,
+              error: "Invalid or expired invitation token"
+            } as ApiResponse<null>
+          };
+        }
+      } catch {
+        return {
+          status: 400,
+          jsonBody: {
+            success: false,
+            data: null,
+            error: "Invalid invitation token"
+          } as ApiResponse<null>
+        };
+      }
+    }
+
+    // 2. Build document
     const now = new Date().toISOString();
     const id = `RPT-${uuidv4().substring(0, 8).toUpperCase()}`;
     const userId = request.headers.get("x-user-id") ?? "anonymous";
@@ -37,6 +69,7 @@ async function submitAssessment(
       id,
       userId,
       companyName: body.companyName,
+      invitationToken: body.token ?? undefined,
       createdAt: now,
       updatedAt: now,
       status: "draft",
@@ -74,10 +107,32 @@ async function submitAssessment(
       sharedLink: null
     };
 
+    // 3. Save to Cosmos
     const container = getContainer();
     await container.items.create(document);
-
     context.log(`Assessment created: ${id}`);
+
+    // 4. Complete invitation
+    if (body.token) {
+      try {
+        const invContainer = getInvitationsContainer();
+        const { resource: invitation } = await invContainer
+          .item(body.token, body.token)
+          .read<InvitationDocument>();
+
+        if (invitation && invitation.status === "pending") {
+          await invContainer.items.upsert({
+            ...invitation,
+            status: "completed",
+            assessmentId: id,
+            completedAt: new Date().toISOString()
+          });
+          context.log(`Invitation completed: ${body.token} → ${id}`);
+        }
+      } catch (invError) {
+        context.log("Warning: Could not complete invitation:", invError);
+      }
+    }
 
     return {
       status: 201,

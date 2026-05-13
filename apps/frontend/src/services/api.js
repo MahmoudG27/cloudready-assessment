@@ -11,12 +11,13 @@ const api = axios.create({
     },
 });
 // ===== Submit Assessment =====
-export async function submitAssessment(companyName, answers, score, confidence) {
+export async function submitAssessment(companyName, answers, score, confidence, token) {
     const response = await api.post("/assessment", {
         companyName,
         answers,
         score,
         confidence,
+        token,
     });
     return response.data;
 }
@@ -53,5 +54,18 @@ export async function getPdfUrl(id) {
 // ===== Send Report by Email =====
 export async function sendReport(id, email) {
     const response = await api.post(`/assessment/${id}/send`, { email });
+    return response.data;
+}
+// ===== Invitation APIs =====
+export async function validateInvitationToken(token) {
+    const response = await api.get(`/invitations/${token}/validate`);
+    return response.data;
+}
+export async function createInvitation(data) {
+    const response = await api.post("/invitations/create", data);
+    return response.data;
+}
+export async function getInvitations() {
+    const response = await api.get("/invitations");
     return response.data;
 }
