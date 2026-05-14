@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createInvitation, getInvitations } from "../services/api";
+import { useMsal } from "@azure/msal-react";
 import Button from "../components/common/Button";
 import Card from "../components/common/Card";
 
@@ -21,6 +22,8 @@ interface Invitation {
 
 export default function InvitationsPage() {
   const navigate = useNavigate();
+  const { accounts } = useMsal();
+  const userEmail = accounts[0]?.username ?? "sales@klayytech.com";
   const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -60,7 +63,7 @@ export default function InvitationsPage() {
         companyName: form.companyName,
         industry: form.industry || undefined,
         notes: form.notes || undefined,
-        createdBy: "sales@klayytech.com", // TODO: replace with Entra ID user
+        createdBy: userEmail,
       });
 
       if (response.success && response.data) {
