@@ -35,6 +35,8 @@ jobs:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_FUNCTION_KEY: ${{ secrets.VITE_FUNCTION_KEY }}
           VITE_USER_ID: ${{ secrets.VITE_USER_ID }}
+          VITE_ENTRA_CLIENT_ID: ${{ secrets.VITE_ENTRA_CLIENT_ID }}
+          VITE_ENTRA_TENANT_ID: ${{ secrets.VITE_ENTRA_TENANT_ID }}
 
       - name: Deploy to Static Web App
         uses: Azure/static-web-apps-deploy@v1
