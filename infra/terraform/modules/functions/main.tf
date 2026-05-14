@@ -44,6 +44,9 @@ resource "azurerm_linux_function_app" "main" {
     LOGIC_APP_TRIGGER_URL                 = "@Microsoft.KeyVault(VaultName=${var.key_vault_name};SecretName=logic-app-trigger-url)"
     OPENAI_DEPLOYMENT_NAME                = var.openai_deployment_name
     SYSTEM_PROMPT                         = "@Microsoft.KeyVault(VaultName=${var.key_vault_name};SecretName=system-prompt)"
+    COSMOS_DATABASE_NAME = var.cosmos_database_name
+    COSMOS_INVITATIONS_CONTAINER = var.cosmos_invitations_container
+    FRONTEND_URL = "https://${var.static_web_app_hostname}"
   }
 
   identity {

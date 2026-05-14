@@ -74,6 +74,8 @@ module "functions" {
   key_vault_name                 = module.key_vault.name
   static_web_app_hostname        = module.static_web_app.hostname
   tenant_id                      = var.tenant_id
+  cosmos_database_name = module.cosmos_db.database_name
+  cosmos_invitations_container = module.cosmos_db.invitations_container_name
 
   depends_on = [module.openai]
 }

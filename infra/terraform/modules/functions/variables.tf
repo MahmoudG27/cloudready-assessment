@@ -47,3 +47,11 @@ variable "openai_deployment_name" {
 variable "static_web_app_hostname" {
   type = string
 }
+
+variable "cosmos_database_name" {
+  type = string
+}
+
+variable "cosmos_invitations_container" {
+  type = string
+}

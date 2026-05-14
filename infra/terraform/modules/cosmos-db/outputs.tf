@@ -27,3 +27,7 @@ output "database_name" {
 output "container_name" {
   value = azurerm_cosmosdb_sql_container.assessments.name
 }
+
+output "invitations_container_name" {
+  value = azurerm_cosmosdb_sql_container.invitations.name
+}
