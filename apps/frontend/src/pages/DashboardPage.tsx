@@ -72,9 +72,12 @@ export default function DashboardPage() {
         <span style={{ fontSize: "15px", fontWeight: 500 }}>
           Klayytech <span style={{ color: "#185FA5" }}>CloudReady</span>
         </span>
-        <Button variant="primary" onClick={() => navigate("/assessment")}>
-          + New assessment
-        </Button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <Button onClick={() => navigate("/invitations")}>Invitations</Button>
+          <Button variant="primary" onClick={() => navigate("/assessment")}>
+            + New assessment
+          </Button>
+        </div>
       </div>
 
       <div style={{ padding: "24px", maxWidth: "1100px", margin: "0 auto" }}>

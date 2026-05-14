@@ -61,7 +61,7 @@ export default function DashboardPage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between"
-                }, children: [_jsxs("span", { style: { fontSize: "15px", fontWeight: 500 }, children: ["Klayytech ", _jsx("span", { style: { color: "#185FA5" }, children: "CloudReady" })] }), _jsx(Button, { variant: "primary", onClick: () => navigate("/assessment"), children: "+ New assessment" })] }), _jsxs("div", { style: { padding: "24px", maxWidth: "1100px", margin: "0 auto" }, children: [_jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "24px" }, children: [
+                }, children: [_jsxs("span", { style: { fontSize: "15px", fontWeight: 500 }, children: ["Klayytech ", _jsx("span", { style: { color: "#185FA5" }, children: "CloudReady" })] }), _jsxs("div", { style: { display: "flex", gap: "8px" }, children: [_jsx(Button, { onClick: () => navigate("/invitations"), children: "Invitations" }), _jsx(Button, { variant: "primary", onClick: () => navigate("/assessment"), children: "+ New assessment" })] })] }), _jsxs("div", { style: { padding: "24px", maxWidth: "1100px", margin: "0 auto" }, children: [_jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", marginBottom: "24px" }, children: [
                             { label: "Total assessments", value: assessments.length, color: "#374151" },
                             {
                                 label: "Advanced", color: "#27500A",
