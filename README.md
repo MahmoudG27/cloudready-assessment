@@ -296,7 +296,7 @@ The AI cannot modify calculated scores. Scores are computed deterministically an
 ## 👤 Author
 
 **Mahmoud Gamal**  
-Cloud & DevOps Engineer | AZ-400 | AZ-204 | AZ-104 | CKA | RHCE  
+Cloud & DevOps Engineer | AZ-104 | AZ-204 | AZ-400 | CKA | RHCSA | RHCE  
 [LinkedIn](https://www.linkedin.com/in/mahmoud-gamal-593039257) | [GitHub](https://www.github.com/MahmoudG27)
 
 ---
