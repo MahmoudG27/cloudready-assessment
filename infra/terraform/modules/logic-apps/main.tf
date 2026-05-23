@@ -17,22 +17,31 @@ resource "azurerm_logic_app_trigger_http_request" "email_trigger" {
   schema = jsonencode({
     type = "object"
     properties = {
-      to = {
+      companyName = {
         type = "string"
       }
-      subject = {
+      level = {
+        type = "string"
+      }
+      pdfBase64 = {
+        type = "string"
+      }
+      pdfFileName = {
         type = "string"
       }
       reportId = {
         type = "string"
       }
-      companyName = {
+      score = {
+        type = "number"
+      }
+      subject = {
         type = "string"
       }
-      reportUrl = {
+      to = {
         type = "string"
       }
     }
-    required = ["to", "subject", "reportId", "companyName", "reportUrl"]
+    required = ["to", "subject", "companyName", "reportId", "pdfBase64", "pdfFileName"]
   })
 }

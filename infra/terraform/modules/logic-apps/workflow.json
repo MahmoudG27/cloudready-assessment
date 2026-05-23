@@ -1,0 +1,97 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "contentVersion": "1.0.0.0",
+        "triggers": {
+            "email-trigger": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "schema": {
+                        "properties": {
+                            "to": {
+                                "type": "string"
+                            },
+                            "subject": {
+                                "type": "string"
+                            },
+                            "companyName": {
+                                "type": "string"
+                            },
+                            "reportId": {
+                                "type": "string"
+                            },
+                            "score": {
+                                "type": "number"
+                            },
+                            "level": {
+                                "type": "string"
+                            },
+                            "pdfBase64": {
+                                "type": "string"
+                            },
+                            "pdfFileName": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "to",
+                            "subject",
+                            "companyName",
+                            "reportId",
+                            "pdfBase64",
+                            "pdfFileName"
+                        ],
+                        "type": "object"
+                    }
+                }
+            }
+        },
+        "actions": {
+            "Send_an_email_(V2)": {
+                "type": "ApiConnection",
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "body": {
+                        "To": "@{triggerBody()?['to']}\n",
+                        "Subject": "@triggerBody()?['subject']",
+                        "Body": "<p class=\"editor-paragraph\">Dear Client,<br><br>Please find attached your Cloud Readiness Assessment Report, prepared by KlayyTech for @{triggerBody()?['companyName']}.<br><br>Assessment Summary:<br>- Readiness Score: @{triggerBody()?['score']}/100<br>- Readiness Level: @{triggerBody()?['level']}<br>- Report ID: @{triggerBody()?['reportId']}<br><br>This report outlines your organisation's current cloud maturity, key findings, recommended Azure services, and a suggested migration roadmap.<br><br>Our cloud consulting team is ready to walk you through the findings and discuss next steps.<br><br>To schedule a consultation, reply to this email or contact us at:<br>support@klayytech.com<br><br>Best regards,<br>KlayyTech Cloud Solutions Team<br>support@klayytech.com</p>",
+                        "Attachments": [
+                            {
+                                "Name": "@triggerBody()?['pdfFileName']",
+                                "ContentBytes": "@triggerBody()?['pdfBase64']"
+                            }
+                        ],
+                        "Importance": "Normal"
+                    },
+                    "path": "/v2/Mail"
+                },
+                "runAfter": {}
+            }
+        },
+        "parameters": {
+            "$connections": {
+                "type": "Object",
+                "defaultValue": {}
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "type": "Object",
+            "value": {
+                "office365": {
+                    "id": "/subscriptions/1650eff4-9462-45fc-9432-0c58630eb89d/providers/Microsoft.Web/locations/westeurope/managedApis/office365",
+                    "connectionId": "/subscriptions/1650eff4-9462-45fc-9432-0c58630eb89d/resourceGroups/rg-cloudready-dev/providers/Microsoft.Web/connections/office365",
+                    "connectionName": "office365",
+                    "connectionProperties": {}
+                }
+            }
+        }
+    }
+}

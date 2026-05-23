@@ -1,9 +1,10 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 import { getContainer } from "../lib/cosmosClient";
-import { generatePDF } from "../lib/pdfGenerator";
+import { generatePDF } from "../lib/pdf/generator";
 import { uploadPDF } from "../lib/storageClient";
 import { AssessmentDocument } from "../types/assessment";
 import { ApiResponse } from "../types/api";
+
 
 async function generatePDFFunction(
   request: HttpRequest,

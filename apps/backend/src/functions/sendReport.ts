@@ -3,6 +3,7 @@ import { getContainer } from "../lib/cosmosClient";
 import { generateSasUrl } from "../lib/storageClient";
 import { AssessmentDocument } from "../types/assessment";
 import { ApiResponse } from "../types/api";
+import { generatePDF } from "../lib/pdf/generator";
 
 async function sendReport(
   request: HttpRequest,
@@ -54,10 +55,14 @@ async function sendReport(
       };
     }
 
+    const pdfBuffer = await generatePDF(document);
+    const pdfBase64 = pdfBuffer.toString("base64");
+
     // Generate SAS URL for PDF
-    const reportUrl = document.pdfUrl
-      ? await generateSasUrl(id)
-      : null;
+    let reportUrl: string | null = null;
+    if (document.pdfUrl) {
+      reportUrl = await generateSasUrl(id);
+    }
 
     // Call Logic App trigger
     const logicAppUrl = process.env.LOGIC_APP_TRIGGER_URL!;
@@ -67,10 +72,13 @@ async function sendReport(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         to: body.email,
-        subject: `Cloud Readiness Report — ${document.companyName}`,
-        reportId: document.id,
+        subject: `Cloud Readiness Assessment — ${document.companyName}`,
         companyName: document.companyName,
-        reportUrl: reportUrl ?? "Report available in portal"
+        reportId: document.id,
+        score: document.score?.total ?? 0,
+        level: document.report?.data?.readinessScore?.level ?? "N/A",
+        pdfBase64,
+        pdfFileName: `KlayyTech-CloudReadiness-${document.companyName.replace(/\s+/g, "-")}.pdf`
       })
     });
 
