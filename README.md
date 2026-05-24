@@ -33,10 +33,10 @@ Sales engineers at cloud consultancies spend hours manually assessing client inf
 │                        Backend                              │
 │                  Azure Functions v4 (Node.js)               │
 │                                                             │
-│  ┌────────────┐  ┌────────────┐  ┌──────────┐  ┌────────┐  │
-│  │ Assessment │  │   Report   │  │   PDF    │  │Invite  │  │
-│  │    API     │  │ Generator  │  │ Service  │  │System  │  │
-│  └─────┬──────┘  └─────┬──────┘  └────┬─────┘  └───┬────┘  │
+│  ┌────────────┐  ┌────────────┐  ┌──────────┐  ┌────────┐   │
+│  │ Assessment │  │   Report   │  │   PDF    │  │Invite  │   │
+│  │    API     │  │ Generator  │  │ Service  │  │System  │   │
+│  └─────┬──────┘  └─────┬──────┘  └────┬─────┘  └───┬────┘   │
 └────────┼───────────────┼──────────────┼─────────────┼───────┘
          │               │              │             │
 ┌────────▼──────┐ ┌──────▼───────┐ ┌───▼──────┐ ┌───▼──────┐
@@ -291,17 +291,23 @@ VITE_ENTRA_TENANT_ID=your_tenant_id
 **Backend** (`local.settings.json`):
 ```json
 {
+  "IsEncrypted": false,
   "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "...",
+    "STORAGE_CONNECTION_STRING": "...",
     "COSMOS_CONNECTION_STRING": "...",
-    "COSMOS_DATABASE_NAME": "cloudready-db",
-    "COSMOS_INVITATIONS_CONTAINER": "invitations",
+    "COSMOS_DATABASE_NAME": "...",
+    "COSMOS_INVITATIONS_CONTAINER": "...",
     "OPENAI_API_KEY": "...",
     "OPENAI_ENDPOINT": "...",
-    "OPENAI_DEPLOYMENT_NAME": "gpt-4o",
-    "STORAGE_CONNECTION_STRING": "...",
     "LOGIC_APP_TRIGGER_URL": "...",
+    "OPENAI_DEPLOYMENT_NAME": "gpt-4o",
     "SYSTEM_PROMPT": "...",
     "FRONTEND_URL": "http://localhost:5173"
+  },
+  "Host": {
+  "CORS": "*"
   }
 }
 ```
