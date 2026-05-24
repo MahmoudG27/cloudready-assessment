@@ -2,9 +2,6 @@
 
 > An AI-powered cloud readiness assessment platform that helps sales engineers evaluate SME clients and generate professional Azure migration reports in minutes.
 
-## 🔗 Live Demo
-[https://gentle-field-0f601ca03.7.azurestaticapps.net](https://gentle-field-0f601ca03.7.azurestaticapps.net)
-
 ---
 
 ## 🧩 What Problem Does It Solve?
@@ -364,6 +361,7 @@ Assessment documents have variable structure per industry. NoSQL avoids schema m
 
 **Mahmoud Gamal**
 Cloud & DevOps Engineer | AZ-104 | AZ-204 | AZ-400 | CKA | RHCSA | RHCE
+
 [LinkedIn](https://www.linkedin.com/in/mahmoud-gamal-593039257) | [GitHub](https://www.github.com/MahmoudG27)
 
 ---
