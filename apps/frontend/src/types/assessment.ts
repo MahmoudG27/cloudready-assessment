@@ -42,9 +42,12 @@ export interface AssessmentDocument {
   id: string;
   userId: string;
   companyName: string;
+  invitationToken?: string;
   createdAt: string;
   updatedAt: string;
   status: AssessmentStatus;
+  score?: AssessmentScore;
+  industry?: string; 
   meta: {
     aiModel: string;
     promptVersion: string;

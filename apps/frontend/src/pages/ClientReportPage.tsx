@@ -95,23 +95,6 @@ export default function ClientReportPage({ assessmentId, token }: ClientReportPa
               <div style={{ fontSize: "13px", opacity: 0.8, marginBottom: "12px" }}>
                 {report.report.ui?.hero.subtext}
               </div>
-              <div style={{ display: "flex", gap: "8px" }}>
-                <a
-                  href="mailto:info@klayytech.com?subject=Cloud Migration Consultation"
-                  style={{
-                    padding: "8px 16px",
-                    borderRadius: "8px",
-                    fontSize: "12px",
-                    fontWeight: 500,
-                    background: "#fff",
-                    color: "#185FA5",
-                    textDecoration: "none",
-                    display: "inline-block"
-                  }}
-                >
-                  Talk to a cloud expert
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -215,8 +198,8 @@ export default function ClientReportPage({ assessmentId, token }: ClientReportPa
           
           <div style={{ display: "flex", gap: "8px" }}>
             <a
-                href="mailto:support@klayytech.com?subject=Cloud Migration Consultation"
-                style={{
+              href="mailto:support@klayytech.com?subject=Cloud Migration Consultation"
+              style={{
                 padding: "8px 16px",
                 borderRadius: "8px",
                 fontSize: "12px",
@@ -225,13 +208,41 @@ export default function ClientReportPage({ assessmentId, token }: ClientReportPa
                 color: "#185FA5",
                 textDecoration: "none",
                 display: "inline-block"
-                }}
+              }}
             >
-                Talk to a cloud expert
+              Talk to a cloud expert
             </a>
           </div>
         </div>  
-
+        
+        {/* Disclaimer */}
+        <div style={{
+          background: "#f9fafb",
+          border: "0.5px solid #e5e7eb",
+          borderRadius: "8px",
+          padding: "14px 16px",
+          marginBottom: "16px"
+        }}>
+          <div style={{
+            fontSize: "10px",
+            fontWeight: 600,
+            color: "#6b7280",
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            marginBottom: "6px"
+          }}>
+            Important Disclaimer
+          </div>
+          <div style={{ fontSize: "11px", color: "#6b7280", lineHeight: 1.6 }}>
+            This assessment is intended for informational and planning purposes only.
+            The findings, recommendations, timelines, and cost estimates are based on
+            information provided during the assessment and may not reflect the full
+            complexity of your environment. Final architecture, pricing, and security
+            requirements may vary based on detailed discovery and implementation scope.
+            KlayyTech recommends a formal technical discovery engagement before
+            commencing any migration activities.
+          </div>
+        </div>
         {/* Footer */}
         <div style={{ textAlign: "center", padding: "16px", fontSize: "11px", color: "#9ca3af" }}>
           {report.id} · KlayyTech CloudReady · Powered by Azure OpenAI

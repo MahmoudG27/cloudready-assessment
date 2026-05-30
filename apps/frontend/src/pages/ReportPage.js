@@ -153,26 +153,19 @@ export default function ReportPage() {
                                     borderLeft: activeSection === secId ? "2px solid #185FA5" : "2px solid transparent",
                                     fontWeight: activeSection === secId ? 500 : 400,
                                     cursor: "pointer"
-                                }, children: label }, secId)))] }), _jsxs("div", { id: "report-content", style: { flex: 1, padding: "20px", overflowY: "auto" }, children: [_jsxs("div", { id: "s-hero", style: {
+                                }, children: label }, secId)))] }), _jsxs("div", { id: "report-content", style: { flex: 1, padding: "20px", overflowY: "auto" }, children: [_jsx("div", { id: "s-hero", style: {
                                     background: "#185FA5", borderRadius: "12px", padding: "20px 24px",
                                     marginBottom: "14px", color: "#fff"
-                                }, children: [_jsxs("div", { style: { display: "flex", alignItems: "flex-start", gap: "20px", marginBottom: "16px" }, children: [_jsxs("div", { style: {
-                                                    width: "80px", height: "80px", borderRadius: "50%",
-                                                    border: "4px solid rgba(255,255,255,0.4)",
-                                                    background: "rgba(255,255,255,0.1)",
-                                                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flexShrink: 0
-                                                }, children: [_jsx("span", { style: { fontSize: "26px", fontWeight: 500, color: "#fff", lineHeight: 1 }, children: score }), _jsx("span", { style: { fontSize: "10px", color: "rgba(255,255,255,0.6)" }, children: "/ 100" })] }), _jsxs("div", { style: { flex: 1 }, children: [_jsx("div", { style: { fontSize: "16px", fontWeight: 500, marginBottom: "6px", lineHeight: 1.3 }, children: ui?.hero.verdict ?? `${report.companyName} — Cloud Readiness Report` }), _jsx("div", { style: { fontSize: "13px", color: "rgba(255,255,255,0.75)", marginBottom: "10px" }, children: ui?.hero.subtext }), ui?.highlights[0] && (_jsxs("div", { style: {
-                                                            display: "flex", alignItems: "center", gap: "8px",
-                                                            background: "rgba(255,255,255,0.12)", border: "0.5px solid rgba(255,255,255,0.2)",
-                                                            borderRadius: "8px", padding: "8px 12px", fontSize: "12px"
-                                                        }, children: [_jsx("div", { style: { width: "7px", height: "7px", borderRadius: "50%", background: "#F7C1C1", flexShrink: 0 } }), ui.highlights[0]] }))] })] }), _jsxs("div", { style: { display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }, children: [_jsx("button", { onClick: () => window.open("mailto:mgamal@klayytech.com?subject=Migration Plan Request", "_blank"), style: {
-                                                    flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
-                                                    background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
-                                                }, children: ui?.hero.ctaPrimary ?? "Start migration plan" }), _jsx("button", { onClick: () => window.open(`mailto:mgamal@klayytech.com?subject=Security Assessment — ${report.companyName}&body=Report ID: ${report.id}`, "_blank"), style: {
-                                                    flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                                                    background: "rgba(255,255,255,0.12)", color: "#fff",
-                                                    border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-                                                }, children: ui?.hero.ctaSecondary ?? "Fix critical security gaps" })] }), _jsx("div", { style: { fontSize: "11px", color: "rgba(255,255,255,0.55)", textAlign: "center", marginTop: "8px" }, children: "A KlayyTech cloud architect will contact you within 24 hours" })] }), _jsx("div", { style: {
+                                }, children: _jsxs("div", { style: { display: "flex", alignItems: "flex-start", gap: "20px", marginBottom: "16px" }, children: [_jsxs("div", { style: {
+                                                width: "80px", height: "80px", borderRadius: "50%",
+                                                border: "4px solid rgba(255,255,255,0.4)",
+                                                background: "rgba(255,255,255,0.1)",
+                                                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", flexShrink: 0
+                                            }, children: [_jsx("span", { style: { fontSize: "26px", fontWeight: 500, color: "#fff", lineHeight: 1 }, children: score }), _jsx("span", { style: { fontSize: "10px", color: "rgba(255,255,255,0.6)" }, children: "/ 100" })] }), _jsxs("div", { style: { flex: 1 }, children: [_jsx("div", { style: { fontSize: "16px", fontWeight: 500, marginBottom: "6px", lineHeight: 1.3 }, children: ui?.hero.verdict ?? `${report.companyName} — Cloud Readiness Report` }), _jsx("div", { style: { fontSize: "13px", color: "rgba(255,255,255,0.75)", marginBottom: "10px" }, children: ui?.hero.subtext }), ui?.highlights[0] && (_jsxs("div", { style: {
+                                                        display: "flex", alignItems: "center", gap: "8px",
+                                                        background: "rgba(255,255,255,0.12)", border: "0.5px solid rgba(255,255,255,0.2)",
+                                                        borderRadius: "8px", padding: "8px 12px", fontSize: "12px"
+                                                    }, children: [_jsx("div", { style: { width: "7px", height: "7px", borderRadius: "50%", background: "#F7C1C1", flexShrink: 0 } }), ui.highlights[0]] }))] })] }) }), _jsx("div", { style: {
                                     background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px",
                                     padding: "12px 20px", marginBottom: "14px",
                                     display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px"
@@ -239,7 +232,7 @@ export default function ReportPage() {
                                                             color: i === 0 ? "#fff" : "#6b7280",
                                                             display: "flex", alignItems: "center", justifyContent: "center",
                                                             fontSize: "10px", fontWeight: 500
-                                                        }, children: i + 1 }), typeof step === "string" ? step : step.step ?? JSON.stringify(step)] }, i))) })] }) }), _jsxs("div", { style: { background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px", padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px" }, children: [_jsxs("div", { style: { fontSize: "11px", color: "#6b7280", marginRight: "auto", lineHeight: 1.5 }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Azure OpenAI powered", _jsx("br", {}), "Reviewed by KlayyTech Cloud Team \u00B7 Confidence: ", report.meta?.confidenceScore ?? 82, "%"] }), _jsx(Button, { variant: "primary", onClick: () => setShowEmailModal(true), children: "Send report to client" })] })] })] }), showEmailModal && (_jsx("div", { style: {
+                                                        }, children: i + 1 }), typeof step === "string" ? step : step.step ?? JSON.stringify(step)] }, i))) })] }) }), _jsxs("div", { style: { background: "#fff", border: "0.5px solid #e5e7eb", borderRadius: "12px", padding: "14px 20px", display: "flex", alignItems: "center", gap: "10px" }, children: [_jsxs("div", { style: { fontSize: "11px", color: "#6b7280", marginRight: "auto", lineHeight: 1.5 }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Azure OpenAI powered", _jsx("br", {}), "Reviewed by KlayyTech Cloud Team \u00B7 Confidence: ", report.meta?.confidenceScore ?? 82, "%"] }), _jsx(Button, { variant: "primary", onClick: () => setShowEmailModal(true), children: "Send a PDF report to client" })] })] })] }), showEmailModal && (_jsx("div", { style: {
                     position: "fixed",
                     top: 0,
                     left: 0,
@@ -256,7 +249,7 @@ export default function ReportPage() {
                         borderRadius: "12px",
                         padding: "20px",
                         boxShadow: "0 20px 60px rgba(0,0,0,0.2)"
-                    }, children: [_jsx("div", { style: { fontSize: "14px", fontWeight: 600, marginBottom: "10px" }, children: "Send report to client" }), _jsx("input", { value: email, onChange: (e) => setEmail(e.target.value), placeholder: "client@company.com", style: {
+                    }, children: [_jsx("div", { style: { fontSize: "14px", fontWeight: 600, marginBottom: "10px" }, children: "Send a PDF report to client" }), _jsx("input", { value: email, onChange: (e) => setEmail(e.target.value), placeholder: "client@company.com", style: {
                                 width: "100%",
                                 padding: "10px 12px",
                                 border: "1px solid #d1d5db",

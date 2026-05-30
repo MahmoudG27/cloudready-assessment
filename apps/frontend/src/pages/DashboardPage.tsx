@@ -70,7 +70,7 @@ export default function DashboardPage() {
         justifyContent: "space-between"
       }}>
         <span style={{ fontSize: "15px", fontWeight: 500 }}>
-          Klayytech <span style={{ color: "#185FA5" }}>CloudReady</span>
+          KlayyTech <span style={{ color: "#185FA5" }}>CloudReady</span>
         </span>
         <div style={{ display: "flex", gap: "8px" }}>
           <Button onClick={() => navigate("/invitations")}>Invitations</Button>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
               {/* Table Header */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "2fr 1.2fr 1fr 1fr 1fr",
+                gridTemplateColumns: "2fr 1fr 2fr 1fr 1fr",
                 padding: "8px 12px",
                 background: "#f9fafb",
                 borderRadius: "8px",
@@ -149,33 +149,42 @@ export default function DashboardPage() {
                 ))}
               </div>
 
-              {/* Table Rows */}
               {assessments.map((assessment) => {
-                const score = assessment.report?.data?.readinessScore?.total ?? 0;
+                const score = assessment.score?.total ?? assessment.report?.data?.readinessScore?.total ?? 0;
+                const industry = assessment.industry ?? assessment.report?.data?.companyOverview?.industry ?? "—";
                 return (
                   <div key={assessment.id} style={{
                     display: "grid",
-                    gridTemplateColumns: "2fr 1.2fr 1fr 1fr 1fr",
+                    gridTemplateColumns: "2fr 1fr 2fr 1fr 1fr",
                     padding: "12px",
                     borderBottom: "0.5px solid #e5e7eb",
                     alignItems: "center"
                   }}>
+                    {/* Company */}
                     <div>
                       <div style={{ fontSize: "13px", fontWeight: 500 }}>{assessment.companyName}</div>
                       <div style={{ fontSize: "11px", color: "#6b7280" }}>
                         {new Date(assessment.createdAt!).toLocaleDateString()}
                       </div>
                     </div>
+
+                    {/* Industry */}
                     <span style={{ fontSize: "13px", color: "#6b7280" }}>
-                      {assessment.report?.data?.companyOverview?.industry ?? "—"}
+                      {industry}
                     </span>
+
+                    {/* Score */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <div style={{ flex: 1, height: "6px", background: "#e5e7eb", borderRadius: "3px", overflow: "hidden" }}>
                         <div style={{ width: `${score}%`, height: "100%", background: getScoreColor(score), borderRadius: "3px" }} />
                       </div>
                       <span style={{ fontSize: "12px", minWidth: "24px" }}>{score}</span>
                     </div>
+
+                    {/* Status */}
                     <span>{getStatusBadge(assessment.status ?? "draft")}</span>
+
+                    {/* Actions */}
                     <div style={{ display: "flex", gap: "6px" }}>
                       <Button
                         onClick={() => navigate(`/report/${assessment.id}`)}

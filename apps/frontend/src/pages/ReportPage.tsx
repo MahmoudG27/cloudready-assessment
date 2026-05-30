@@ -215,30 +215,6 @@ export default function ReportPage() {
                 )}
               </div>
             </div>
-            <div style={{ display: "flex", gap: "10px", paddingTop: "16px", borderTop: "0.5px solid rgba(255,255,255,0.2)" }}>
-              <button
-                onClick={() => window.open("mailto:mgamal@klayytech.com?subject=Migration Plan Request", "_blank")}
-                style={{
-                  flex: 1.2, padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: 500,
-                  background: "#fff", color: "#185FA5", border: "none", cursor: "pointer"
-                }}
-              >
-                {ui?.hero.ctaPrimary ?? "Start migration plan"}
-              </button>
-              <button
-                onClick={() => window.open(`mailto:mgamal@klayytech.com?subject=Security Assessment — ${report.companyName}&body=Report ID: ${report.id}`, "_blank")}
-                style={{
-                  flex: 1, padding: "10px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                  background: "rgba(255,255,255,0.12)", color: "#fff",
-                  border: "0.5px solid rgba(255,255,255,0.25)", cursor: "pointer"
-                }}
-              >
-                {ui?.hero.ctaSecondary ?? "Fix critical security gaps"}
-              </button>
-            </div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.55)", textAlign: "center", marginTop: "8px" }}>
-              A KlayyTech cloud architect will contact you within 24 hours
-            </div>
           </div>
 
           {/* Meta bar */}
@@ -565,7 +541,7 @@ export default function ReportPage() {
               Reviewed by KlayyTech Cloud Team · Confidence: {report.meta?.confidenceScore ?? 82}%
             </div>
               <Button variant="primary" onClick={() => setShowEmailModal(true)}>
-                Send report to client
+                Send a PDF report to client
               </Button>
           </div>
 
@@ -594,7 +570,7 @@ export default function ReportPage() {
           }}>
 
             <div style={{ fontSize: "14px", fontWeight: 600, marginBottom: "10px" }}>
-              Send report to client
+              Send a PDF report to client
             </div>
 
             <input

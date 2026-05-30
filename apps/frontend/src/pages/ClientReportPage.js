@@ -50,16 +50,7 @@ export default function ClientReportPage({ assessmentId, token }) {
                                         background: "rgba(255,255,255,0.1)",
                                         display: "flex", flexDirection: "column",
                                         alignItems: "center", justifyContent: "center", flexShrink: 0
-                                    }, children: [_jsx("span", { style: { fontSize: "28px", fontWeight: 600, lineHeight: 1 }, children: score }), _jsx("span", { style: { fontSize: "10px", opacity: 0.7 }, children: "/ 100" })] }), _jsxs("div", { children: [_jsx("div", { style: { fontSize: "18px", fontWeight: 600, marginBottom: "4px" }, children: report.report.ui?.hero.verdict }), _jsx("div", { style: { fontSize: "13px", opacity: 0.8, marginBottom: "12px" }, children: report.report.ui?.hero.subtext }), _jsx("div", { style: { display: "flex", gap: "8px" }, children: _jsx("a", { href: "mailto:info@klayytech.com?subject=Cloud Migration Consultation", style: {
-                                                    padding: "8px 16px",
-                                                    borderRadius: "8px",
-                                                    fontSize: "12px",
-                                                    fontWeight: 500,
-                                                    background: "#fff",
-                                                    color: "#185FA5",
-                                                    textDecoration: "none",
-                                                    display: "inline-block"
-                                                }, children: "Talk to a cloud expert" }) })] })] }) }), _jsxs(Card, { children: [_jsx("div", { style: { fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "12px" }, children: "Cloud Readiness Score" }), _jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "10px" }, children: [
+                                    }, children: [_jsx("span", { style: { fontSize: "28px", fontWeight: 600, lineHeight: 1 }, children: score }), _jsx("span", { style: { fontSize: "10px", opacity: 0.7 }, children: "/ 100" })] }), _jsxs("div", { children: [_jsx("div", { style: { fontSize: "18px", fontWeight: 600, marginBottom: "4px" }, children: report.report.ui?.hero.verdict }), _jsx("div", { style: { fontSize: "13px", opacity: 0.8, marginBottom: "12px" }, children: report.report.ui?.hero.subtext })] })] }) }), _jsxs(Card, { children: [_jsx("div", { style: { fontSize: "10px", fontWeight: 500, color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "12px" }, children: "Cloud Readiness Score" }), _jsx("div", { style: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "10px" }, children: [
                                     { label: "Infrastructure", value: data.readinessScore.breakdown.infrastructure, color: "#185FA5" },
                                     { label: "Security", value: data.readinessScore.breakdown.security, color: data.readinessScore.breakdown.security < 50 ? "#E24B4A" : "#185FA5" },
                                     { label: "Team Readiness", value: data.readinessScore.breakdown.teamReadiness, color: "#639922" },
@@ -91,5 +82,18 @@ export default function ClientReportPage({ assessmentId, token }) {
                                         color: "#185FA5",
                                         textDecoration: "none",
                                         display: "inline-block"
-                                    }, children: "Talk to a cloud expert" }) })] }), _jsxs("div", { style: { textAlign: "center", padding: "16px", fontSize: "11px", color: "#9ca3af" }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Powered by Azure OpenAI"] })] })] }));
+                                    }, children: "Talk to a cloud expert" }) })] }), _jsxs("div", { style: {
+                            background: "#f9fafb",
+                            border: "0.5px solid #e5e7eb",
+                            borderRadius: "8px",
+                            padding: "14px 16px",
+                            marginBottom: "16px"
+                        }, children: [_jsx("div", { style: {
+                                    fontSize: "10px",
+                                    fontWeight: 600,
+                                    color: "#6b7280",
+                                    textTransform: "uppercase",
+                                    letterSpacing: "0.05em",
+                                    marginBottom: "6px"
+                                }, children: "Important Disclaimer" }), _jsx("div", { style: { fontSize: "11px", color: "#6b7280", lineHeight: 1.6 }, children: "This assessment is intended for informational and planning purposes only. The findings, recommendations, timelines, and cost estimates are based on information provided during the assessment and may not reflect the full complexity of your environment. Final architecture, pricing, and security requirements may vary based on detailed discovery and implementation scope. KlayyTech recommends a formal technical discovery engagement before commencing any migration activities." })] }), _jsxs("div", { style: { textAlign: "center", padding: "16px", fontSize: "11px", color: "#9ca3af" }, children: [report.id, " \u00B7 KlayyTech CloudReady \u00B7 Powered by Azure OpenAI"] })] })] }));
 }

@@ -14,7 +14,7 @@ async function getAssessments(
 
     const { resources } = await container.items
       .query<AssessmentDocument>({
-        query: "SELECT c.id, c.companyName, c.status, c.createdAt, c.insights, c.report.data.readinessScore FROM c ORDER BY c.createdAt DESC"
+        query: "SELECT c.id, c.companyName, c.status, c.createdAt, c.score, c.answers.industry AS industry FROM c ORDER BY c.createdAt DESC"
       })
       .fetchAll();
 
